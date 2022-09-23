@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 //@Getter
 //@Setter
-@Data
+/*@Data
 @Entity
 public class user {
 
@@ -34,4 +34,4 @@ public class user {
     }
 
 
-}
+}*/

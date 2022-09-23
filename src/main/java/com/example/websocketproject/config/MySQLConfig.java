@@ -10,7 +10,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan("com.example.test.controller")
+@MapperScan ("com.example.websocketproject.controller")
 public class MySQLConfig {
 
     @Bean
@@ -24,7 +24,6 @@ public class MySQLConfig {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         // classpath --> resource 파일을 나타냄
         sessionFactory.setMapperLocations(resolver.getResources("classpath:mappers/*.xml"));
-
 
         return sessionFactory.getObject();
     }
