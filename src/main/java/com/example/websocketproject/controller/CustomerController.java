@@ -1,6 +1,6 @@
 package com.example.websocketproject.controller;
 
-import com.example.websocketproject.repository.CustomerRepostiory;
+//import com.example.websocketproject.repository.CustomerRepostiory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,5 +18,10 @@ public class CustomerController {
     public String main() {
         return "main";
 
+    }
+
+    @GetMapping("/chattingPage")
+    public String chattingPage() {
+        return "chattingPage";
     }
 }
