@@ -12,4 +12,11 @@
         where request_user = #{id}
         or response_user = #{id}
     </select>
+
+    <select id="roadChat" parameterType="String" resultType="com.example.websocketproject.entity.ChatMessageDTO">
+        select *
+        from chatmessage
+        where id = #{id}
+        order by sendDate
+    </select>
 </mapper>

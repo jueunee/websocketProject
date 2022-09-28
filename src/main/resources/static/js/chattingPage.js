@@ -1,7 +1,17 @@
 $(document).ready(function () {
     connect(); //웹소켓 연결 함수 실행
     document.querySelector('#messageForm').addEventListener('submit', sendMessage, true)
-})
+
+    $('.modalClose').click(function () {
+        $('#modal').fadeOut(150);
+        $('.modalSave').off('click');
+    });
+
+    $('#chatList li').click(function () {
+        let id = $(this).attr('id');
+        roadChat(id);
+    });
+});
 
 let stompClient = null
 
@@ -39,7 +49,7 @@ function onMessageReceived(payload) {
             .append($('<span>'+ message.sender + '</span>')
                 .append($('<p>' + message.message + '</p>'))))
 
-    $('#chartStart').scrollTop = $('#chartStart').scrollHeight;
+    $('#chatStart').scrollTop = $('#chatStart').scrollHeight;
 }
 
 /*
@@ -62,17 +72,105 @@ function sendMessage(e) {
 
 }
 
-function chatDetail(e) {
-    let id = $(this).attr('id');
-
-    console.log(id)
+// 채팅 기록 불러오기
+function roadChat(id) {
+    $('#chatStart').empty();
     $.ajax({
-        url : "roadChat",
-        data : {"id" : id},
-        type : JSON,
-        success : function(e) {
-            alert(e)
+        url: "roadChat",
+        type: "post",
+        data: {"id" : id},
+        success: function (message) {
+            $.each(message, (index, obj) => {
+                $('#chatStart')
+                    .append($('<li>')
+                        .append($('<span>'+ obj.sender + '</span>')
+                            .append($('<p>' + obj.message + '</p>'))))
+            })
         },
-        error : alert("안넘어옴")
-    })
+        error: function (){
+            console.log("데이터 불러오기 실패")
+        }
+    });
 }
+
+//모달 test
+function matchingModal() {
+    $('#modal').fadeIn(250);
+}
+
+// 매칭하기 메서드
+function matching() {
+    let mbti1 = [];
+    let mbti2 = [];
+    let mbti3 = [];
+    let mbti4 = [];
+    let gender = [];
+    let check = true;
+
+    if (!$('input[name=mbti1]').is(":checked")) {
+        console.log("mbti1체크X")
+        check = false;
+    } else {
+        $('input[name=mbti1]:checked').each(function () {
+            mbti1.push($(this).val());
+        })
+    }
+
+    if (!$('input[name=mbti2]').is(":checked")) {
+        console.log("mbti2체크X")
+        check = false;
+    } else {
+        $('input[name=mbti2]:checked').each(function () {
+            mbti2.push($(this).val());
+        })
+    }
+
+    if (!$('input[name=mbti3]').is(":checked")) {
+        console.log("mbti3체크X")
+        check = false;
+    } else {
+        $('input[name=mbti3]:checked').each(function () {
+            mbti3.push($(this).val());
+        })
+    }
+
+    if (!$('input[name=mbti4]').is(":checked")) {
+        console.log("mbti4체크X")
+        check = false;
+    } else {
+        $('input[name=mbti4]:checked').each(function () {
+            mbti4.push($(this).val());
+        })
+    }
+
+    if (!$('input[name=gender]').is(":checked")) {
+        console.log("gender체크X")
+        check = false;
+    } else {
+        $('input[name=gender]:checked').each(function () {
+            gender.push($(this).val());
+        })
+    }
+
+    if (check === true) {
+        const sendData = {
+            "mbti1" : mbti1,
+            "mbti2" : mbti2,
+            "mbti3" : mbti3,
+            "mbti4" : mbti4,
+            "gender" : gender
+        }
+        console.log(sendData)
+
+        $.ajax({
+            url : "matching",
+            type : "POST",
+            contentType: "application/json",
+            data : JSON.stringify(sendData),
+            dataType : "json",
+            success : function(e) {
+
+            }
+        })
+    }
+ }
