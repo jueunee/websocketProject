@@ -4,6 +4,7 @@ import com.example.websocketproject.entity.User;
 import com.example.websocketproject.entity.UserDTO;
 import com.example.websocketproject.mapper.UserMapper;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,15 @@ public class UserService {
 
         userMapper.createUser(user);
     }
-
     public List<User> getList(){
         return userMapper.getList();
     }
 
-//    public User loginCheck(UserDTO.LoginInfo userdto){
-//        User user = UserMapper.getUser(userdto.getUser_id());
-//    }
+    public User getUser(User user) {
+         userMapper.getUser(user);
+        return user;
+    }
+
+
 }
 
