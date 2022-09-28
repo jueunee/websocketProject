@@ -12,4 +12,6 @@ public interface ChatDAO {
     void chatMessage(ChatMessageDTO chatMessageDTO);
 
     List<ChattingRoomDTO> chatList(String id);
+
+    List<ChatMessageDTO> roadChat(String id);
 }
