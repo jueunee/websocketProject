@@ -36,7 +36,7 @@ function onMessageReceived(payload) {
 
     $('#chatStart')
         .append($('<li>')
-            .append($('<span>'+ message.sendUser + '</span>')
+            .append($('<span>'+ message.sender + '</span>')
                 .append($('<p>' + message.message + '</p>'))))
 
     $('#chartStart').scrollTop = $('#chartStart').scrollHeight;
@@ -50,15 +50,29 @@ function sendMessage(e) {
 
     if (messageContent && stompClient) {
         let chatMessage = {
-            "listId" : {"_id" : "632bcc06c83bfb1c473790a7", "requestUser" : "userA", "responseUser" : "userB"}, // 리스트 값
-            "sendUser": "userA", // 세션값
+            "id" : 7,
+            "sender": "userA", // 세션값
             "message": messageContent
         };
-        console.log(chatMessage);
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         $('#message').val("");
     }
 
-    e.preventDefault2();
+    e.preventDefault();
 
+}
+
+function chatDetail(e) {
+    let id = $(this).attr('id');
+
+    console.log(id)
+    $.ajax({
+        url : "roadChat",
+        data : {"id" : id},
+        type : JSON,
+        success : function(e) {
+            alert(e)
+        },
+        error : alert("안넘어옴")
+    })
 }

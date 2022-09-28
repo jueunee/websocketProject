@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.websocketproject.repository.ChatDAO">
+    <insert id="chatMessage" parameterType="com.example.websocketproject.entity.ChatMessageDTO">
+        insert into chatmessage(id, sender, message)
+        values(#{id}, #{sender}, #{message})
+    </insert>
+
+    <select id="chatList" parameterType="String" resultType="com.example.websocketproject.entity.ChattingRoomDTO">
+        select *
+        from chattingroom
+        where request_user = #{id}
+        or response_user = #{id}
+    </select>
+</mapper>

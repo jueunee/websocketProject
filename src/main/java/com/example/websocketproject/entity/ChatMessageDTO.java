@@ -4,24 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
-@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ChatMessageDTO {
 
-    private String _id;
-
-    private ChatListDTO listId;
-    private String sendUser;
+    private int id;
+    private String sender;
     private String message;
+    private Timestamp sendDate;
 
-    public ChatMessageDTO toEntity() {
-        return ChatMessageDTO.builder()
-                .listId(listId)
-                .sendUser(sendUser)
-                .message(message)
-                .build();
+    @Override
+    public String toString() {
+        return "ChatMessageDTO{" +
+                "id=" + id +
+                ", sender='" + sender + '\'' +
+                ", message='" + message + '\'' +
+                ", sendDate=" + sendDate +
+                '}';
     }
 }

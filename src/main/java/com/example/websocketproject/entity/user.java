@@ -1,3 +1,4 @@
+/*
 package com.example.websocketproject.entity;
 
 import jdk.nashorn.internal.objects.annotations.Getter;
@@ -12,7 +13,7 @@ import java.sql.Timestamp;
 
 //@Getter
 //@Setter
-/*@Data
+@Data
 @Entity
 public class user {
 
@@ -34,4 +35,5 @@ public class user {
     }
 
 
-}*/
+}
+*/

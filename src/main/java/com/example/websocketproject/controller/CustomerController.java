@@ -20,8 +20,5 @@ public class CustomerController {
 
     }
 
-    @GetMapping("/chattingPage")
-    public String chattingPage() {
-        return "chattingPage";
-    }
+
 }
