@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.websocketproject.mapper.UserMapper">
+    <!--    <insert id="createUser">-->
+    <!--        INSERT INTO user(id,user_id, password, name, mbti, gender, email ) values (#{id},#{user_id},#{password},#{name},#{mbti},#{gender},#{email})-->
+
+    <!--    </insert>-->
+    <insert id="createUser" parameterType="com.example.websocketproject.entity.User">
+        insert into member(user_id, pw, name, email, gender, mbti)
+        values (#{user_id},#{pw},#{name},#{email},#{gender},#{mbti})
+    </insert>
+
+    <select id="getList" parameterType="com.example.websocketproject.entity.User">
+        select * from member
+    </select>
+</mapper>

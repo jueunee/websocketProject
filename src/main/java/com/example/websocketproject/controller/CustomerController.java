@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CustomerController {
 
     //게시판- 데이터 입력 값 저장
-    @GetMapping("/")
+    @GetMapping("/login")
     public String main() {
-        return "main";
+        return "login";
 
     }
 
