@@ -10,7 +10,7 @@
     <select id="getList" parameterType="com.example.websocketproject.entity.User" >
         select * from member
     </select>
-    <select id="getUser" parameterType="com.example.websocketproject.entity.User" >
+    <select id="getUser" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User" >
         select *
         from member
         where user_id=#{user_id} and pw=#{pw}

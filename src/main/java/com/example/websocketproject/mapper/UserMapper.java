@@ -10,5 +10,5 @@ public interface UserMapper {
     void createUser(User user);
     List<User> getList();
 
-    void getUser(User user);
+    List<User> getUser(User user);
 }

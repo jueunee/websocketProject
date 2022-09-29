@@ -14,6 +14,7 @@ import java.util.List;
 public class UserService {
     @Autowired(required = false)
     UserMapper userMapper;
+
     public void createUser(User user) {
         System.out.println("시스템이다ㅏㅏㅏㅏㅏ" + user);
 
@@ -24,11 +25,15 @@ public class UserService {
         return userMapper.getList();
     }
 
-    public User getUser(User user) {
-         userMapper.getUser(user);
-        return user;
+    public List<User> getUser(User user) {
+         List<User> result = userMapper.getUser(user);
+
+        return result;
     }
 
 
+    public int idCheck(String user_id) {
+        return 0;
+    }
 }
 
