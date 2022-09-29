@@ -1,59 +1,108 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>test</title>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="static/js/chattingPage.js"></script>
+    <style>
+        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+        .row.content {height: 98vh;}
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            background-color: #00C3FF;
+            height: 100%;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 15px;
+        }
+
+        .modal-header, .close {
+            background-color: #5cb85c;
+            color:white !important;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .modal-body {
+            background-color: #f9f9f9;
+        }
+        .modal-footer {
+            background-color: #f9f9f9;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+            .row.content {height: auto;}
+        }
+    </style>
 </head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
 <body>
-<script src="static/js/chattingPage.js"></script>
-<%--<script type="text/javascript" src="static/js/lib/jquery-3.6.0.min.js"></script>--%>
-<div>
-    <div>
-        <div>
-            Chatting List
-        </div>
-        <ul id="chatList">
-        <c:forEach var="list" items="${list}">
-            <li id='${list._id}'>${list.user_id}</li>
-        </c:forEach>
-        </ul>
-        <div>
-            <button onclick="matchingModal()">매칭하기</button>
-        </div>
-    </div>
-</div>
-
-<div>
-    <div>
-        <div>
-            <h2>Chatting Page</h2>
-        </div>
-        <ul id="chatStart">
-
-        </ul>
-        <form id="messageForm">
-            <div>
-                <div>
-                    <input type="text" id="message" placeholder="Type a message..." autocomplete="off"/>
-                    <button type="submit" id="submit">보내기</button>
-                </div>
+<header class="container-fluid">
+    <p>together</p>
+</header>
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-3 sidenav">
+            <h4>Chatting List</h4>
+            <input type="hidden" id="session" value="${member.user_id}">
+            <ul class="nav nav-pills nav-stacked" id="chatList">
+                <c:forEach var="list" items="${list}">
+                    <li id='${list._id}'>${list.user_id}</li>
+                </c:forEach>
+            </ul><br>
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">매칭하기</button>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Blog..">
+                <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
             </div>
-        </form>
+        </div>
+
+        <div class="col-sm-9">
+            <h4><small>RECENT POSTS</small></h4>
+            <hr>
+            <ul id="chatStart">
+
+            </ul>
+            <form id="messageForm">
+                <div>
+                    <div>
+                        <input type="text" id="message" placeholder="Type a message..." autocomplete="off"/>
+                        <button type="submit" id="submit">보내기</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 <%-- modal --%>
-<div id="modal">
-    <div class="modalBox">
-        <div class="modalHeader">
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-header">
             <h3>Matching <span id="modalTitle"></span></h3>
-            <button class="modalClose">×</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
 
-        <div class="modalCon">
+        <div class="modal-body">
             <div>
                 <label>MBTI</label>
                 <input type="checkbox" name="mbti1" value="E">E
@@ -71,13 +120,11 @@
             </div>
         </div>
 
-        <div class="modalFooter">
-            <button class="modalSave" onclick="matching()"> 매칭하기 </button>
+        <div class="modal-footer">
+            <button class="modalSave" class="btn btn-default" onclick="matching()"> 매칭하기 </button>
         </div>
     </div>
 </div>
-
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>

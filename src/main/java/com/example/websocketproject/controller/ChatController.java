@@ -43,14 +43,13 @@ public class ChatController {
     }
 
     @RequestMapping("/chattingPage")
-    public String chattingPage(Model model, String id) {
-        id = "userA";
-
-        List<ChattingRoomDTO> chatList = chatMapper.chatList(id);
+    public String chattingPage(Model model, String user_id) {
+        List<ChattingRoomDTO> chatList = chatMapper.chatList(user_id);
         List<ChatListDTO> chatListDTOS = new ArrayList<>();
+
         if (chatList.size() != 0) {
             for (int i = 0; i < chatList.size(); i++) {
-                if (chatList.get(i).getRequest_user().equals(id)) {
+                if (chatList.get(i).getRequest_user().equals(user_id)) {
                     ChatListDTO dto = new ChatListDTO();
                     dto.set_id(chatList.get(i).getId());
                     dto.setUser_id(chatList.get(i).getResponse_user());
@@ -63,6 +62,7 @@ public class ChatController {
                 }
             }
         }
+
         model.addAttribute("list", chatListDTOS);
 
         return "chattingPage";

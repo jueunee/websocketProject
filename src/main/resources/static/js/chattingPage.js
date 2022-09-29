@@ -4,6 +4,7 @@ let id = null;
 $(document).ready(function () {
     connect(); //웹소켓 연결 함수 실행
     document.querySelector('#messageForm').addEventListener('submit', sendMessage, true)
+    history.replaceState({}, null, location.pathname);
 
     $('.modalClose').click(function () {
         $('#modal').fadeOut(150);
@@ -20,7 +21,7 @@ $(document).ready(function () {
 * SockJS와 stompClient를 이용하여 springBoot에서 구성한 엔드 포인트에 연결
 */
 function connect() {
-    let userId = "userA"; //세션 아이디값
+    let userId = $('#session').val(); //세션 아이디값
 
     if (userId) {
         const socket = new SockJS('/ws');
@@ -62,7 +63,7 @@ function sendMessage(e) {
     if (messageContent && stompClient) {
         let chatMessage = {
             "id": id,
-            "sender": "userA", // 세션값
+            "sender": $('#session').val(), // 세션값
             "message": messageContent
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
@@ -82,10 +83,23 @@ function roadChat(id) {
         data: {"id": id},
         success: function (message) {
             $.each(message, (index, obj) => {
-                $('#chatStart')
-                    .append($('<li>')
-                        .append($('<span>' + obj.sender + '</span>')
-                            .append($('<p>' + obj.message + '</p>'))))
+                if (obj.sender !== $('#session').val()) { //세션아이디 부여
+                    $('#chatStart')
+                        .append($('<li>')
+                            .attr("id", "other")
+                            .css("color", "skyblue")
+                            .css("position", "right")
+                            .append($('<span>' + obj.sender + '</span>')
+                                .append($('<p>' + obj.message + '</p>'))))
+                } else {
+                    $('#chatStart')
+                        .append($('<li>')
+                            .attr("id", "user")
+                            .css("color", "coral")
+                            .css("position", "left")
+                            .append($('<span>' + obj.sender + '</span>')
+                                .append($('<p>' + obj.message + '</p>'))))
+                }
             })
         },
         error: function () {
