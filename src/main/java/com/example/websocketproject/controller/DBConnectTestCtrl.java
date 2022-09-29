@@ -3,12 +3,14 @@ package com.example.websocketproject.controller;
 import com.example.websocketproject.entity.TestDTO;
 import com.example.websocketproject.repository.TestDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class DBConnectTestCtrl {
 
     @Autowired
@@ -18,4 +20,7 @@ public class DBConnectTestCtrl {
     public List<TestDTO> HelloWorld() {
         return testDAO.getTestData();
     }
+
+    @RequestMapping("/test")
+    public String test() {return "test";}
 }

@@ -34,7 +34,7 @@ public class SignupController {
         if (result.size() != 0) {//로그인성공시 세션을 생성, null이 아니면 세션고유의값 리턴
             System.out.println("정보잇음");
             session.setAttribute("member", user);//세션에 로그인된 회원 인증성공
-            return "redirect:/index";
+            return "redirect:/chattingPage?user_id="+user.getUser_id();
         } else {
             System.out.println("정보없음");
             return "redirect:/login";

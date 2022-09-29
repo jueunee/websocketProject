@@ -1,6 +1,10 @@
+let stompClient = null
+let id = null;
+
 $(document).ready(function () {
     connect(); //웹소켓 연결 함수 실행
     document.querySelector('#messageForm').addEventListener('submit', sendMessage, true)
+    history.replaceState({}, null, location.pathname);
 
     $('.modalClose').click(function () {
         $('#modal').fadeOut(150);
@@ -8,20 +12,18 @@ $(document).ready(function () {
     });
 
     $('#chatList li').click(function () {
-        let id = $(this).attr('id');
+        id = $(this).attr('id');
         roadChat(id);
     });
 });
-
-let stompClient = null
 
 /*
 * SockJS와 stompClient를 이용하여 springBoot에서 구성한 엔드 포인트에 연결
 */
 function connect() {
-    let userId = "userA"; //세션 아이디값
+    let userId = $('#session').val(); //세션 아이디값
 
-    if(userId){
+    if (userId) {
         const socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
 
@@ -46,7 +48,7 @@ function onMessageReceived(payload) {
 
     $('#chatStart')
         .append($('<li>')
-            .append($('<span>'+ message.sender + '</span>')
+            .append($('<span>' + message.sender + '</span>')
                 .append($('<p>' + message.message + '</p>'))))
 
     $('#chatStart').scrollTop = $('#chatStart').scrollHeight;
@@ -60,8 +62,8 @@ function sendMessage(e) {
 
     if (messageContent && stompClient) {
         let chatMessage = {
-            "id" : 7,
-            "sender": "userA", // 세션값
+            "id": id,
+            "sender": $('#session').val(), // 세션값
             "message": messageContent
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
@@ -78,16 +80,29 @@ function roadChat(id) {
     $.ajax({
         url: "roadChat",
         type: "post",
-        data: {"id" : id},
+        data: {"id": id},
         success: function (message) {
             $.each(message, (index, obj) => {
-                $('#chatStart')
-                    .append($('<li>')
-                        .append($('<span>'+ obj.sender + '</span>')
-                            .append($('<p>' + obj.message + '</p>'))))
+                if (obj.sender !== $('#session').val()) { //세션아이디 부여
+                    $('#chatStart')
+                        .append($('<li>')
+                            .attr("id", "other")
+                            .css("color", "skyblue")
+                            .css("position", "right")
+                            .append($('<span>' + obj.sender + '</span>')
+                                .append($('<p>' + obj.message + '</p>'))))
+                } else {
+                    $('#chatStart')
+                        .append($('<li>')
+                            .attr("id", "user")
+                            .css("color", "coral")
+                            .css("position", "left")
+                            .append($('<span>' + obj.sender + '</span>')
+                                .append($('<p>' + obj.message + '</p>'))))
+                }
             })
         },
-        error: function (){
+        error: function () {
             console.log("데이터 불러오기 실패")
         }
     });
@@ -154,29 +169,33 @@ function matching() {
 
     if (check === true) {
         const sendData = {
-            "mbti1" : mbti1,
-            "mbti2" : mbti2,
-            "mbti3" : mbti3,
-            "mbti4" : mbti4,
-            "gender" : gender,
-            "user" : "userA" //user_id
+            "mbti1": mbti1,
+            "mbti2": mbti2,
+            "mbti3": mbti3,
+            "mbti4": mbti4,
+            "gender": gender,
+            "user": "userA" //user_id
         }
         console.log(sendData)
 
         $.ajax({
-            url : "matching",
-            type : "POST",
+            url: "matching",
+            type: "POST",
             contentType: "application/json",
-            data : JSON.stringify(sendData),
-            dataType : "json",
-            success : function(e) {
-                if (e === false) {
+            data: JSON.stringify(sendData),
+            dataType: "json",
+            success: function (e) {
+                if (e === "random") {
                     alert("랜덤매치")
                     location.reload();
+                } else if (e === "nothing") {
+                    alert("없음")
                 } else {
-                    setTimeout(function(){location.reload();},3000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000);
                 }
             }
         })
     }
- }
+}
