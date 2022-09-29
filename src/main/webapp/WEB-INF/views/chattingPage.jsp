@@ -19,9 +19,6 @@
         <c:forEach var="list" items="${list}">
             <li id='${list._id}'>${list.user_id}</li>
         </c:forEach>
-            <li id='test3'>test3</li>
-            <li id='test1'>test1</li>
-            <li id='test2'>tset2</li>
         </ul>
         <div>
             <button onclick="matchingModal()">매칭하기</button>
