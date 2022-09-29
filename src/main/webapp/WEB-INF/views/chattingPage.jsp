@@ -69,8 +69,8 @@
                 <input type="checkbox" name="mbti4" value="P">P
                 <br>
                 <label>성별</label>
-                <input type="checkbox" name="gender" value="female">여
-                <input type="checkbox" name="gender" value="male">남
+                <input type="checkbox" name="gender" value="F">여
+                <input type="checkbox" name="gender" value="M">남
             </div>
         </div>
 

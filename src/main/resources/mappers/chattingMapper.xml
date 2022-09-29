@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.websocketproject.repository.ChatDAO">
+<mapper namespace="com.example.websocketproject.mapper.ChatMapper">
     <insert id="chatMessage" parameterType="com.example.websocketproject.entity.ChatMessageDTO">
         insert into chatmessage(id, sender, message)
         values(#{id}, #{sender}, #{message})
@@ -19,4 +19,26 @@
         where id = #{id}
         order by sendDate
     </select>
+
+    <select id="matching" parameterType="String" resultType="com.example.websocketproject.entity.User">
+        select *
+        from member
+        where mbti = #{mbti}
+        and gender = #{gender}
+        and user_id != #{user_id}
+        order by RAND() LIMIT 1;
+    </select>
+
+    <select id="matchingRandom" parameterType="String" resultType="com.example.websocketproject.entity.User">
+        select *
+        from member
+        where gender = #{gender}
+        and user_id != #{user_id}
+        order by RAND() LIMIT 1;
+    </select>
+
+    <insert id="createdRoom" parameterType="String">
+        insert into chattingroom(request_user, response_user)
+        values(#{request_user}, #{response_user})
+    </insert>
 </mapper>

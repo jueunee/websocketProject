@@ -158,7 +158,8 @@ function matching() {
             "mbti2" : mbti2,
             "mbti3" : mbti3,
             "mbti4" : mbti4,
-            "gender" : gender
+            "gender" : gender,
+            "user" : "userA" //user_id
         }
         console.log(sendData)
 
@@ -169,7 +170,12 @@ function matching() {
             data : JSON.stringify(sendData),
             dataType : "json",
             success : function(e) {
-
+                if (e === false) {
+                    alert("랜덤매치")
+                    location.reload();
+                } else {
+                    setTimeout(function(){location.reload();},3000);
+                }
             }
         })
     }
