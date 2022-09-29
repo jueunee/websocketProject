@@ -15,5 +15,7 @@
         from member
         where user_id=#{user_id} and pw=#{pw}
     </select>
-
+    <select id="overlappedID" parameterType="om.example.websocketproject.entity.User" resultType="int">
+        select count(id) From destudymember where id=#{id}
+    </select>
 </mapper>

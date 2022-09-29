@@ -20,12 +20,13 @@ public class SignupController {
     public void getSelectOne() throws Exception {
     }
 
-    @PostMapping(value = "/idCheck")
     @ResponseBody
-    public int idCheck(@RequestParam("user_id") String user_id) {
-        int cnt = userService.idCheck(user_id);
-        return cnt;
+    @GetMapping("idCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
+    public int overlappedID(User user) throws Exception{
+        int result = UserService.overlappedID(user); // 중복확인한 값을 int로 받음
+        return result;
     }
+
 //로그인 정보일치 확인
     @PostMapping("login")
     public String getSelectOne(User user, HttpSession session) throws Exception {
@@ -38,7 +39,6 @@ public class SignupController {
             System.out.println("정보없음");
             return "redirect:/login";
         }
-
     }
     @RequestMapping("/index")
     public String main() {
@@ -51,6 +51,7 @@ public class SignupController {
        session.invalidate();
        return "redirect:/login";
     }
+    //회원가입 페이지
     @RequestMapping("/signupPage")
     public String page() {
         return "signup";

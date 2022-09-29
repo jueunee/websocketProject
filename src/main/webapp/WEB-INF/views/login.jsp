@@ -24,18 +24,12 @@
         </tr>
         <tr>
             <td><input name="submit" type="submit" value="submit" /></td>
-<%--            <td><button id="logoutBtn" type="submit">logout</button></td>--%>
             <p><a href="/signupPage">Sign Up</a> </p>
         </tr>
     </table>
 </form>
 <script>
-    $(document).ready(function(){
-        $("#logoutBtn").on("click", function(){
-            location.href="/login";
-        })
 
-    })
     // $("#user_id").blur(function (){
     //     var user_id=$('user_id').val();
     //     $.ajax({

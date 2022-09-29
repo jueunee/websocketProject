@@ -8,12 +8,7 @@
 <form action="/index" method='POST'>
     <h1>Main Page</h1>
     <h2>Hello!</h2>
-<%--    <%--%>
-<%--        String id = (String)session.getAttribute("user_id");//꺼내올때는 다운캐스팅을 해서 꺼냄--%>
-<%--        if(id == null){--%>
-<%--            response.sendRedirect("login.jsp");--%>
-<%--        }--%>
-<%--    %>--%>
+
     <ul>
         <li>
             <c:if test="${member!=null}">

@@ -11,4 +11,6 @@ public interface UserMapper {
     List<User> getList();
 
     List<User> getUser(User user);
+
+    public int overlappedID(User user) throws Exception;
 }

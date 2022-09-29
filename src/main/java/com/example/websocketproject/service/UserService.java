@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired(required = false)
+    static
     UserMapper userMapper;
 
     public void createUser(User user) {
@@ -30,10 +31,9 @@ public class UserService {
 
         return result;
     }
-
-
-    public int idCheck(String user_id) {
-        return 0;
+    public static int overlappedID(User user) throws Exception{
+        int result = userMapper.overlappedID(user);
+        return result;
     }
 }
 
