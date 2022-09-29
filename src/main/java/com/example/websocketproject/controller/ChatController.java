@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +44,10 @@ public class ChatController {
     }
 
     @RequestMapping("/chattingPage")
-    public String chattingPage(Model model, String user_id) {
+    public String chattingPage(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("member");
+        String user_id = user.getUser_id();
+
         List<ChattingRoomDTO> chatList = chatMapper.chatList(user_id);
         List<ChatListDTO> chatListDTOS = new ArrayList<>();
 
