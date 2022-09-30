@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ChatMessageDTO {
 
+    private int num;
     private int id;
     private String sender;
     private String message;
@@ -21,7 +22,8 @@ public class ChatMessageDTO {
     @Override
     public String toString() {
         return "ChatMessageDTO{" +
-                "id=" + id +
+                "num=" + num +
+                ", id=" + id +
                 ", sender='" + sender + '\'' +
                 ", message='" + message + '\'' +
                 ", sendDate=" + sendDate +

@@ -55,4 +55,12 @@
         where request_user = #{request_user}
         and response_user = #{response_user}
     </select>
+
+    <select id="roadNextChat" parameterType="int" resultType="com.example.websocketproject.entity.ChatMessageDTO">
+        select *
+        from chatmessage
+        where id = #{id}
+        and num <![CDATA[ < ]]> #{num}
+        order by num DESC
+    </select>
 </mapper>

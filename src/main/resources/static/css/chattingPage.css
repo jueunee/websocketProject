@@ -1,10 +1,10 @@
 .row.content {
-    height: 96vh;
+    height: 94vh;
 }
 
 .col-sm-9 {
     overflow:auto;
-    height:auto;
+    height:1100px;
 }
 
 /* Set gray background color and 100% height */

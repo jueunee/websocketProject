@@ -111,4 +111,14 @@ public class ChatController {
 
     }
 
+    @RequestMapping("/roadNextChat")
+    public @ResponseBody List<ChatMessageDTO> roadNextChat(@RequestBody Map<String, Object> request) {
+        int id = Integer.parseInt(request.get("id").toString());
+        int num = Integer.parseInt(request.get("endNum").toString());
+
+        List<ChatMessageDTO> chatMessage = chatMapper.roadNextChat(id, num);
+
+        return chatMessage;
+    }
+
 }
