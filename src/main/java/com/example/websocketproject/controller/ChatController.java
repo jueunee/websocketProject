@@ -6,6 +6,7 @@ import com.example.websocketproject.entity.ChattingRoomDTO;
 import com.example.websocketproject.entity.User;
 import com.example.websocketproject.mapper.ChatMapper;
 import com.example.websocketproject.service.ChatService;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,24 @@ public class ChatController {
         chatMapper.chatMessage(chatMessageDTO);
 
         return chatMessageDTO;
+    }
+
+    @MessageMapping("/chat.createdRoom")
+    @SendTo("/topic/createdRoom")
+    public ChattingRoomDTO setCreatedRoom(@Payload Map<String, Object> request) {
+        String response_user = request.get("other").toString();
+        String request_user = request.get("user").toString();
+
+        ChattingRoomDTO result = chatMapper.setCreatedRoom(response_user, request_user);
+
+        return result;
+    }
+
+    @RequestMapping("/firstMessage")
+    public @ResponseBody int firstMessage(String user_id) {
+        int id = chatMapper.firstMessage(user_id);
+
+        return id;
     }
 
     @RequestMapping("/chattingPage")

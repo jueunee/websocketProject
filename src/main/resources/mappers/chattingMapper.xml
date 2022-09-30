@@ -17,7 +17,7 @@
         select *
         from chatmessage
         where id = #{id}
-        order by sendDate DESC LIMIT 15;
+        order by num DESC LIMIT 15;
     </select>
 
     <select id="matching" parameterType="String" resultType="com.example.websocketproject.entity.User">
@@ -41,4 +41,18 @@
         insert into chattingroom(request_user, response_user)
         values(#{request_user}, #{response_user})
     </insert>
+
+    <select id="firstMessage" resultType="int">
+        select id
+        from chattingroom
+        where request_user = #{user_id}
+        order by id DESC LIMIT 1;
+    </select>
+
+    <select id="setCreatedRoom" parameterType="String" resultType="com.example.websocketproject.entity.ChattingRoomDTO">
+        select *
+        from chattingroom
+        where request_user = #{request_user}
+        and response_user = #{response_user}
+    </select>
 </mapper>

@@ -3,6 +3,8 @@ package com.example.websocketproject.service;
 import com.example.websocketproject.entity.ChattingRoomDTO;
 import com.example.websocketproject.entity.User;
 import com.example.websocketproject.mapper.ChatMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,9 @@ public class ChatService {
         List<String> mbti4 = (List<String>) request.get("mbti4");
         List<String> mbtiList = new ArrayList<>();
         String user = request.get("user").toString();
+
+        Gson gson = new GsonBuilder().create();
+        ArrayList<String> resultList  = new ArrayList<>();
 
         int cnt = 0;
         int checkInt = mbti1.size() * mbti2.size() * mbti3.size() * mbti4.size();
@@ -97,15 +102,19 @@ public class ChatService {
                 }
                 break;
             }
-            if (cnt != 100) {
-                chatMapper.createdRoom(matching_member.getUser_id(), user);
-                return "random";
+            if (cnt == 100) {
+                resultList.add("nothing");
             } else {
-                return "nothing";
+                chatMapper.createdRoom(matching_member.getUser_id(), user);
+                resultList.add("random");
+                resultList.add(matching_member.getUser_id());
             }
         } else {
             chatMapper.createdRoom(matching_member.getUser_id(), user);
-            return "ok";
+            resultList.add("ok");
+            resultList.add(matching_member.getUser_id());
         }
+        String result = gson.toJson(resultList);
+        return result;
     }
 }
