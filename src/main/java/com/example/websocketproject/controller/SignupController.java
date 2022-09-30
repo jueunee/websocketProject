@@ -5,6 +5,7 @@ import com.example.websocketproject.mapper.UserMapper;
 import com.example.websocketproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -19,7 +20,7 @@ public class SignupController {
     @GetMapping("login")
     public void getSelectOne() throws Exception {
     }
-
+    //아이디 중복 확인
     @ResponseBody
     @GetMapping("/idCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
     public int overlappedID(String id) throws Exception{
@@ -27,7 +28,7 @@ public class SignupController {
         return result;
     }
 
-//로그인 정보일치 확인
+    //로그인 정보일치 확인
     @PostMapping("/login")
     public String getSelectOne(User user, HttpSession session) throws Exception {
         List<User> result = userService.getUser(user);
@@ -38,11 +39,10 @@ public class SignupController {
             return "redirect:/login";
         }
     }
-    @RequestMapping("/index")
-    public String main() {
-        return "index";
-    }
-
+//    @RequestMapping("/index")
+//    public String main() {
+//        return "index";
+//    }
     //로그아웃, 세션 초기화
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) throws Exception{
@@ -63,4 +63,8 @@ public class SignupController {
         userService.createUser(user);
         return "signup";
     }
+
+    @GetMapping("/user/{id}/admin")
+        public String admin(@PathVariable("id") Integer id, Model model,)
+
 }

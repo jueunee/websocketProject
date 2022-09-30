@@ -30,8 +30,8 @@ public class UserService {
 
         return result;
     }
-    public int overlappedID(String user_id) throws Exception{
-        int result = userMapper.overlappedID(user_id);
+    public int overlappedID(String id) throws Exception{
+        int result = userMapper.overlappedID(id);
         return result;
     }
 }

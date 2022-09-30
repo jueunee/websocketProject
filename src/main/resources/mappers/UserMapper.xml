@@ -3,8 +3,8 @@
 <mapper namespace="com.example.websocketproject.mapper.UserMapper">
 
     <insert id="createUser" parameterType="com.example.websocketproject.entity.User">
-        insert into member(user_id, pw, name, email, gender, mbti)
-        values (#{user_id},#{pw},#{name},#{email},#{gender},#{mbti})
+        insert into member(user_id, pw, email, gender, mbti)
+        values (#{user_id},#{pw},#{email},#{gender},#{mbti})
     </insert>
 
     <select id="getList" parameterType="com.example.websocketproject.entity.User" >
@@ -16,6 +16,6 @@
         where user_id=#{user_id} and pw=#{pw}
     </select>
     <select id="overlappedID" parameterType="String" resultType="int">
-        select count(id) From destudymember where id=#{id}
+        select count(*) From member where user_id=#{user_id}
     </select>
 </mapper>

@@ -54,6 +54,7 @@
 <body>
 <header class="container-fluid">
     <p>together</p>
+    <a href="/logout">로그아웃</a>
 </header>
 <div class="container-fluid">
     <div class="row content">

@@ -12,5 +12,6 @@ public interface UserMapper {
 
     List<User> getUser(User user);
 
-    public int overlappedID(String user_id) throws Exception;
+    public int overlappedID(String id) throws Exception;
+
 }
