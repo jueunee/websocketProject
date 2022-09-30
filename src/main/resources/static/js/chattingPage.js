@@ -1,5 +1,6 @@
 let stompClient = null
 let id = null;
+let isEnd = false; // 채팅메시지를 끝까지 다 불러왔을 경우 체크
 
 $(document).ready(function () {
     connect(); //웹소켓 연결 함수 실행
@@ -12,6 +13,7 @@ $(document).ready(function () {
     });
 
     $('#chatList li').click(function () {
+        isEnd = false;
         id = $(this).attr('id');
         roadChat(id);
     });
@@ -139,7 +141,7 @@ function roadChat(id) {
                             .css("color", "skyblue")
                             .append($('<span>' + obj.sender + '</span>')
                                 .append($('<p>' + obj.message + '</p>')
-                                    .append($('<input type="hidden" value='+ obj.sendDate +'>')))))
+                                    .append($('<input type="hidden" value='+ obj.num +'>')))))
                 } else {
                     $('#chatStart')
                         .append($('<li>')
@@ -147,7 +149,7 @@ function roadChat(id) {
                             .css("color", "coral")
                             .append($('<span>' + obj.sender + '</span>')
                                 .append($('<p>' + obj.message + '</p>')
-                                    .append($('<input type="hidden" value='+ obj.sendDate +'>')))))
+                                    .append($('<input type="hidden" value='+ obj.num +'>')))))
                 }
             })
         },
@@ -260,16 +262,54 @@ $(window).on('scroll', function() {
     }
 })
 
-let isEnd = false; // 채팅메시지를 끝까지 다 불러왔을 경우 체크
 //이전기록 15개 불러오기
 function fetchList() {
 
-    if (isEnd == true) {
+    if (isEnd === true) {
+        alert("마지막페이지")
         return;
     }
 
-    let endDate = $('#chatStart > li > input').val();
-    console.log("최근 자료 날짜 : " + endDate);
+    let endNum = $('#chatStart > li > span > p > input').val();
+    const data = {
+        "endNum" : endNum,
+        "id" : id
+    }
+
+    $.ajax({
+        url: "roadNextChat",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: function (message) {
+            let length = message.length;
+
+            if (length < 15) {
+                isEnd = true;
+            }
+
+            $.each(message, (index, obj) => {
+                if (obj.sender !== $('#session').val()) { //세션아이디 부여
+                    $('#chatStart')
+                        .prepend($('<li>')
+                            .attr("id", "other")
+                            .css("color", "skyblue")
+                            .append($('<span>' + obj.sender + '</span>')
+                                .append($('<p>' + obj.message + '</p>')
+                                    .append($('<input type="hidden" value='+ obj.num +'>')))))
+                } else {
+                    $('#chatStart')
+                        .prepend($('<li>')
+                            .attr("id", "user")
+                            .css("color", "coral")
+                            .append($('<span>' + obj.sender + '</span>')
+                                .append($('<p>' + obj.message + '</p>')
+                                    .append($('<input type="hidden" value='+ obj.num +'>')))))
+                }
+            })
+        }
+    })
 
 }
 

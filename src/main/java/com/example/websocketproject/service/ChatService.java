@@ -114,7 +114,9 @@ public class ChatService {
             resultList.add("ok");
             resultList.add(matching_member.getUser_id());
         }
+
         String result = gson.toJson(resultList);
+
         return result;
     }
 }

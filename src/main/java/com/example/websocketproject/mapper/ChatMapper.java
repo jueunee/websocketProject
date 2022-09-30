@@ -25,4 +25,6 @@ public interface ChatMapper {
     Integer firstMessage(@Param("request_user") String request_user, @Param("response_user") String response_user);
 
     ChattingRoomDTO setCreatedRoom(String response_user, String request_user);
+
+    List<ChatMessageDTO> roadNextChat(@Param("id")int id, @Param("num")int num);
 }
