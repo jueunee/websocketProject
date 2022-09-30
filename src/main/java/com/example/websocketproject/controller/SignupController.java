@@ -20,10 +20,11 @@ public class SignupController {
     @GetMapping("login")
     public void getSelectOne() throws Exception {
     }
+
     //아이디 중복 확인
     @ResponseBody
     @GetMapping("/idCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
-    public int overlappedID(String id) throws Exception{
+    public int overlappedID(String id) throws Exception {
         int result = userService.overlappedID(id); // 중복확인한 값을 int로 받음
         return result;
     }
@@ -39,16 +40,18 @@ public class SignupController {
             return "redirect:/login";
         }
     }
-//    @RequestMapping("/index")
+
+    //    @RequestMapping("/index")
 //    public String main() {
 //        return "index";
 //    }
     //로그아웃, 세션 초기화
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session) throws Exception{
-       session.invalidate();
-       return "redirect:/login";
+    public String logout(HttpSession session) throws Exception {
+        session.invalidate();
+        return "redirect:/login";
     }
+
     //회원가입 페이지
     @RequestMapping("/signupPage")
     public String page() {
@@ -64,7 +67,11 @@ public class SignupController {
         return "signup";
     }
 
-    @GetMapping("/user/{id}/admin")
-        public String admin(@PathVariable("id") Integer id, Model model,)
-
+    @GetMapping("/admin")
+        public String admin(Model model) {
+        List<User> memberList = userService.admin();
+        model.addAttribute("title","회원리스트");
+        model.addAttribute("memberList",memberList);
+        return "redirect:/admin";
+    }
 }

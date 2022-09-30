@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    private static UserMapper userMapper;
+    private UserMapper userMapper;
 
     public void createUser(User user) {
         System.out.println("시스템이다ㅏㅏㅏㅏㅏ" + user);
@@ -35,9 +35,9 @@ public class UserService {
         return result;
     }
 
-//    public static List<User> admin(){
-//        List<User> memberList = userMapper.admin();
-//        return memberList;
-//    }
+    public List<User> admin(){
+        List<User> memberList = userMapper.admin();
+        return memberList;
+    }
 }
 
