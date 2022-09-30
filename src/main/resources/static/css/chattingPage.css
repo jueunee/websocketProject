@@ -1,0 +1,54 @@
+.row.content {
+    height: 96vh;
+}
+
+.col-sm-9 {
+    overflow:auto;
+    height:auto;
+}
+
+/* Set gray background color and 100% height */
+.sidenav {
+    background-color: #00C3FF;
+    height: 100%;
+}
+
+/* Set black background color, white text and some padding */
+header {
+    background-color: white;
+    color: #00C3FF;
+    padding: 10px;
+}
+
+.blink {
+    -webkit-animation: blink 0.5s linear infinite;
+}
+@keyframes blink {
+    /*0% 부터 100% 까지*/
+    0% { color:black;}
+    100% {color:yellow;}
+    0% {coloc:black;}
+}
+
+.modal-header, .close {
+    background-color: #5cb85c;
+    color:white !important;
+    text-align: center;
+    font-size: 30px;
+}
+
+.modal-body {
+    background-color: #f9f9f9;
+}
+.modal-footer {
+    background-color: #f9f9f9;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+    .row.content {height: auto;}
+}

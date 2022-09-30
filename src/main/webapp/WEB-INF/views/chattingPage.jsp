@@ -10,54 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="static/js/chattingPage.js"></script>
-    <style>
-        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-        .row.content {
-            height: 96vh;
-        }
-
-        .col-sm-9 {
-            overflow:auto;
-            height:auto;
-        }
-
-        /* Set gray background color and 100% height */
-        .sidenav {
-            background-color: #00C3FF;
-            height: 100%;
-        }
-
-        /* Set black background color, white text and some padding */
-        header {
-            background-color: white;
-            color: #00C3FF;
-            padding: 10px;
-        }
-
-        .modal-header, .close {
-            background-color: #5cb85c;
-            color:white !important;
-            text-align: center;
-            font-size: 30px;
-        }
-
-        .modal-body {
-            background-color: #f9f9f9;
-        }
-        .modal-footer {
-            background-color: #f9f9f9;
-        }
-
-        /* On small screens, set height to 'auto' for sidenav and grid */
-        @media screen and (max-width: 767px) {
-            .sidenav {
-                height: auto;
-                padding: 15px;
-            }
-            .row.content {height: auto;}
-        }
-    </style>
 </head>
+<link rel="stylesheet" href="static/css/chattingPage.css">
 <body>
 <header class="container-fluid">
     <p>together</p>
