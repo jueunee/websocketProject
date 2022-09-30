@@ -64,7 +64,7 @@ public class SignupController {
         return "signup";
     }
 
-    @GetMapping("/user/{id}/admin")
-        public String admin(@PathVariable("id") Integer id, Model model,)
+    /*@GetMapping("/user/{id}/admin")
+        public String admin(@PathVariable("id") Integer id, Model model)*/
 
 }

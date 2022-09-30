@@ -42,11 +42,11 @@
         values(#{request_user}, #{response_user})
     </insert>
 
-    <select id="firstMessage" resultType="int">
+    <select id="firstMessage" parameterType="String" resultType="int">
         select id
         from chattingroom
-        where request_user = #{user_id}
-        order by id DESC LIMIT 1;
+        where request_user = #{request_user}
+        and response_user = #{response_user}
     </select>
 
     <select id="setCreatedRoom" parameterType="String" resultType="com.example.websocketproject.entity.ChattingRoomDTO">

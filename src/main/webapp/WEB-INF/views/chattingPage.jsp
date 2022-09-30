@@ -109,6 +109,9 @@
 
         <div class="modal-body">
             <div>
+                <label>전체선택</label>
+                <input type="checkbox" name="mbti" value="selectall" onclick="selectAll(this)">
+                <br>
                 <label>MBTI</label>
                 <input type="checkbox" name="mbti1" value="E">E
                 <input type="checkbox" name="mbti1" value="I">I

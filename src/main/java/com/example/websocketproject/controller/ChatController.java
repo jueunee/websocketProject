@@ -54,8 +54,10 @@ public class ChatController {
     }
 
     @RequestMapping("/firstMessage")
-    public @ResponseBody int firstMessage(String user_id) {
-        int id = chatMapper.firstMessage(user_id);
+    public @ResponseBody int firstMessage(@RequestBody Map<String, Object> request) {
+        String request_user = request.get("request_user").toString();
+        String response_user = request.get("response_user").toString();
+        int id = chatMapper.firstMessage(request_user, response_user);
 
         return id;
     }
