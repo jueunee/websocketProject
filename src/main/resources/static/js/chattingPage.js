@@ -46,13 +46,11 @@ function setCreatedRoom(payload) {
 
     if(roomMember.response_user === $('#session').val()) {
         $('#chatList')
-            .append($("<li id=`"+roomMember.id+"`>"+roomMember.request_user+ "</li>"))
+            .append($("<li id=`"+roomMember.id+"` class='blink'>"+roomMember.request_user+ "</li>")
+                .on('click', function(){
+                    roadChat(roomMember.id)
+                }))
     }
-
-    $('#chatList li').click(function () {
-        id = $(this).attr('id');
-        roadChat(id);
-    });
 }
 
 /*
