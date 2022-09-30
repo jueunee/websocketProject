@@ -64,7 +64,12 @@ public class SignupController {
         return "signup";
     }
 
-    @GetMapping("/user/{id}/admin")
-        public String admin(@PathVariable("id") Integer id, Model model,)
+//    @GetMapping("/memberList")
+//        public String admin(Model model) {
+//        List<User> memberList = UserService.admin();
+//        model.addAttribute("title","회원리스트");
+//        model.addAttribute("memberList",memberList);
+//        return "redirect:/admin";
+//    }
 
 }

@@ -18,4 +18,8 @@
     <select id="overlappedID" parameterType="String" resultType="int">
         select count(*) From member where user_id=#{user_id}
     </select>
+    <select id="admin" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User">
+        select user_id,grade,joinDated
+        from member
+    </select>
 </mapper>

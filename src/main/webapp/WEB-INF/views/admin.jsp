@@ -53,8 +53,8 @@ div class="container-fluid mt-3">
                 </thead>
                 <tbody>
 <%--                에러나면 체크--%>
-                <tr th:each="users : ${getList}">
-                    <form th:action="@{/user/change/{id}(id=${users.id})}" method="post" class="d-flex">
+                <tr th:each="user : ${memberList}">
+                    <form th:action="/admin" method="post" class="d-flex">
                         <td th:text="${user.user_id}">userID</td>
                         <td th:text="${user.grade}">Grade</td>
                         <td>

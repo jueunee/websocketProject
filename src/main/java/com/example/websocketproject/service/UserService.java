@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    private UserMapper userMapper;
+    private static UserMapper userMapper;
 
     public void createUser(User user) {
         System.out.println("시스템이다ㅏㅏㅏㅏㅏ" + user);
@@ -34,5 +34,10 @@ public class UserService {
         int result = userMapper.overlappedID(id);
         return result;
     }
+
+//    public static List<User> admin(){
+//        List<User> memberList = userMapper.admin();
+//        return memberList;
+//    }
 }
 
