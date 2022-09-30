@@ -95,11 +95,18 @@ function onMessageReceived(payload) {
 * 메시지를 보내는 함수
 */
 function sendMessage(e) {
-
+    const send = {
+        "request_user" : $('#session').val(),
+        "response_user" : $('#chatList li:last-child').text()
+    };
+    console.log(send)
     $.ajax({
-        url : "firstMessage",
-        data : {"user_id" : $('#session').val()},
-        success : function(result) {
+        url: "firstMessage",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(send),
+        dataType: "json",
+        success: function (result) {
             let messageContent = $('#message').val();
 
             if (messageContent && stompClient) {
@@ -213,7 +220,7 @@ function matching() {
             "mbti3": mbti3,
             "mbti4": mbti4,
             "gender": gender,
-            "user": $('#session').val() //user_id
+            "user": $('#session').val()
         }
         console.log(sendData)
 
@@ -224,7 +231,6 @@ function matching() {
             data: JSON.stringify(sendData),
             dataType: "json",
             success: function (e) {
-                console.log(e[0] + " " + e[1])
                 if (e[0] === "random") {
                     let sendData = {
                         "other" : e[1],
@@ -267,4 +273,34 @@ function fetchList() {
     let endDate = $('#chatStart > li > input').val();
     console.log("최근 자료 날짜 : " + endDate);
 
+}
+
+function selectAll(selectAll) {
+    const checkboxes1
+        = document.getElementsByName('mbti1');
+
+    checkboxes1.forEach((checkbox) => {
+        checkbox.checked = selectAll.checked;
+    })
+
+    const checkboxes2
+        = document.getElementsByName('mbti2');
+
+    checkboxes2.forEach((checkbox) => {
+        checkbox.checked = selectAll.checked;
+    })
+
+    const checkboxes3
+        = document.getElementsByName('mbti3');
+
+    checkboxes3.forEach((checkbox) => {
+        checkbox.checked = selectAll.checked;
+    })
+
+    const checkboxes4
+        = document.getElementsByName('mbti4');
+
+    checkboxes4.forEach((checkbox) => {
+        checkbox.checked = selectAll.checked;
+    })
 }

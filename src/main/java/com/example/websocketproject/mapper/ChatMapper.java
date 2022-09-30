@@ -22,7 +22,7 @@ public interface ChatMapper {
 
     void createdRoom(@Param("response_user") String responseUser, @Param("request_user") String requestUser);
 
-    Integer firstMessage(String user_id);
+    Integer firstMessage(@Param("request_user") String request_user, @Param("response_user") String response_user);
 
     ChattingRoomDTO setCreatedRoom(String response_user, String request_user);
 }
