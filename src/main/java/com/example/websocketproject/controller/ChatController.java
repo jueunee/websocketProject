@@ -15,12 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -76,8 +73,12 @@ public class ChatController {
     public @ResponseBody List<ChatMessageDTO> roadChat(String id) {
 
         List<ChatMessageDTO> chatMessage = chatMapper.roadChat(id);
+        List<ChatMessageDTO> chatMessageDESC = new ArrayList<>();
+        for (int i = chatMessage.size()-1; i >= 0; i--) {
+            chatMessageDESC.add(chatMessage.get(i));
+        }
 
-        return chatMessage;
+        return chatMessageDESC;
     }
 
     @RequestMapping("/matching")

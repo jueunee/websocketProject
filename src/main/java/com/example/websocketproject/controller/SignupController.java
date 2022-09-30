@@ -21,22 +21,20 @@ public class SignupController {
     }
 
     @ResponseBody
-    @GetMapping("idCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
-    public int overlappedID(User user) throws Exception{
-        int result = UserService.overlappedID(user); // 중복확인한 값을 int로 받음
+    @GetMapping("/idCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
+    public int overlappedID(String id) throws Exception{
+        int result = userService.overlappedID(id); // 중복확인한 값을 int로 받음
         return result;
     }
 
 //로그인 정보일치 확인
-    @PostMapping("login")
+    @PostMapping("/login")
     public String getSelectOne(User user, HttpSession session) throws Exception {
         List<User> result = userService.getUser(user);
         if (result.size() != 0) {//로그인성공시 세션을 생성, null이 아니면 세션고유의값 리턴
-            System.out.println("정보잇음");
             session.setAttribute("member", user);//세션에 로그인된 회원 인증성공
             return "redirect:/chattingPage";
         } else {
-            System.out.println("정보없음");
             return "redirect:/login";
         }
     }

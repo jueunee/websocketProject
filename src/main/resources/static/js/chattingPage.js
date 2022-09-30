@@ -46,10 +46,21 @@ function onConnected() {
 function onMessageReceived(payload) {
     let message = JSON.parse(payload.body);
 
-    $('#chatStart')
-        .append($('<li>')
-            .append($('<span>' + message.sender + '</span>')
-                .append($('<p>' + message.message + '</p>'))))
+    if (message.sender !== $('#session').val()) { //세션아이디 부여
+        $('#chatStart')
+            .append($('<li>')
+                .attr("id", "other")
+                .css("color", "skyblue")
+                .append($('<span>' + message.sender + '</span>')
+                    .append($('<p>' + message.message + '</p>'))))
+    } else {
+        $('#chatStart')
+            .append($('<li>')
+                .attr("id", "user")
+                .css("color", "coral")
+                .append($('<span>' + message.sender + '</span>')
+                    .append($('<p>' + message.message + '</p>'))))
+    }
 
     $('#chatStart').scrollTop = $('#chatStart').scrollHeight;
 }
@@ -88,17 +99,17 @@ function roadChat(id) {
                         .append($('<li>')
                             .attr("id", "other")
                             .css("color", "skyblue")
-                            .css("position", "right")
                             .append($('<span>' + obj.sender + '</span>')
-                                .append($('<p>' + obj.message + '</p>'))))
+                                .append($('<p>' + obj.message + '</p>')
+                                    .append($('<input type="hidden" value='+ obj.sendDate +'>')))))
                 } else {
                     $('#chatStart')
                         .append($('<li>')
                             .attr("id", "user")
                             .css("color", "coral")
-                            .css("position", "left")
                             .append($('<span>' + obj.sender + '</span>')
-                                .append($('<p>' + obj.message + '</p>'))))
+                                .append($('<p>' + obj.message + '</p>')
+                                    .append($('<input type="hidden" value='+ obj.sendDate +'>')))))
                 }
             })
         },
@@ -198,4 +209,25 @@ function matching() {
             }
         })
     }
+}
+
+//이전기록 불러오기 위한 업스크롤 이벤트
+$(window).on('scroll', function() {
+    let scrollTop = $(this).scrollTop();
+    if(scrollTop < 1) {
+        fetchList();
+    }
+})
+
+let isEnd = false; // 채팅메시지를 끝까지 다 불러왔을 경우 체크
+//이전기록 15개 불러오기
+function fetchList() {
+
+    if (isEnd == true) {
+        return;
+    }
+
+    let endDate = $('#chatStart > li > input').val();
+    console.log("최근 자료 날짜 : " + endDate);
+
 }

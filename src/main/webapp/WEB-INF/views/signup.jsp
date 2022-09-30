@@ -8,6 +8,7 @@
 
 </head>
 <body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <div class="container">
     <h2>회원가입</h2>
     <form action="/signup1" autocomplete="off" method="post">
@@ -47,13 +48,16 @@
 
 <script>
     $("#overlappedID").click(function (){
+
        $("#signup").attr("type","button");
        const id =$("#user_id").val();
+        let test = {"id" : id};
+        console.log(id)
         $.ajax({
             url : "/idcheck",
             type : "get",
             async: false,
-            data: {id: id},
+            data: {"id": id},
             success : function (data){
                 // console.log("1 = 중복o / 0 = 중복x : "+ data);
                 if(data == 1){

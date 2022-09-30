@@ -17,7 +17,7 @@
         select *
         from chatmessage
         where id = #{id}
-        order by sendDate
+        order by sendDate DESC LIMIT 15;
     </select>
 
     <select id="matching" parameterType="String" resultType="com.example.websocketproject.entity.User">

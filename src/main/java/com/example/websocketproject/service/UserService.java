@@ -12,9 +12,8 @@ import java.util.List;
 
 @Service
 public class UserService {
-    @Autowired(required = false)
-    static
-    UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     public void createUser(User user) {
         System.out.println("시스템이다ㅏㅏㅏㅏㅏ" + user);
@@ -27,12 +26,12 @@ public class UserService {
     }
 
     public List<User> getUser(User user) {
-         List<User> result = userMapper.getUser(user);
+        List<User> result = userMapper.getUser(user);
 
         return result;
     }
-    public static int overlappedID(User user) throws Exception{
-        int result = userMapper.overlappedID(user);
+    public int overlappedID(String user_id) throws Exception{
+        int result = userMapper.overlappedID(user_id);
         return result;
     }
 }
