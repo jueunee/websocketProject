@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>하...</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -12,7 +12,14 @@
     <script src="static/js/chattingPage.js"></script>
     <style>
         /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-        .row.content {height: 98vh;}
+        .row.content {
+            height: 96vh;
+        }
+
+        .col-sm-9 {
+            overflow:auto;
+            height:auto;
+        }
 
         /* Set gray background color and 100% height */
         .sidenav {
@@ -21,10 +28,10 @@
         }
 
         /* Set black background color, white text and some padding */
-        footer {
-            background-color: #555;
-            color: white;
-            padding: 15px;
+        header {
+            background-color: white;
+            color: #00C3FF;
+            padding: 10px;
         }
 
         .modal-header, .close {
@@ -67,9 +74,6 @@
             </ul><br>
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">매칭하기</button>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search Blog..">
-                <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
             <span class="glyphicon glyphicon-search"></span>
           </button>
         </span>

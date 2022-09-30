@@ -38,6 +38,21 @@ function connect() {
 function onConnected() {
     // 웹소켓 목적지 구독
     stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('/topic/createdRoom', setCreatedRoom);
+}
+
+function setCreatedRoom(payload) {
+    let roomMember = JSON.parse(payload.body);
+
+    if(roomMember.response_user === $('#session').val()) {
+        $('#chatList')
+            .append($("<li id=`"+roomMember.id+"`>"+roomMember.request_user+ "</li>"))
+    }
+
+    $('#chatList li').click(function () {
+        id = $(this).attr('id');
+        roadChat(id);
+    });
 }
 
 /*
@@ -46,20 +61,31 @@ function onConnected() {
 function onMessageReceived(payload) {
     let message = JSON.parse(payload.body);
 
-    if (message.sender !== $('#session').val()) { //세션아이디 부여
-        $('#chatStart')
-            .append($('<li>')
-                .attr("id", "other")
-                .css("color", "skyblue")
-                .append($('<span>' + message.sender + '</span>')
-                    .append($('<p>' + message.message + '</p>'))))
+    if (message.id === id) {
+        if (message.sender !== $('#session').val()) { //세션아이디 부여
+            $('#chatStart')
+                .append($('<li>')
+                    .attr("id", "other")
+                    .css("color", "skyblue")
+                    .append($('<span>' + message.sender + '</span>')
+                        .append($('<p>' + message.message + '</p>'))))
+        } else {
+            $('#chatStart')
+                .append($('<li>')
+                    .attr("id", "user")
+                    .css("color", "coral")
+                    .append($('<span>' + message.sender + '</span>')
+                        .append($('<p>' + message.message + '</p>'))))
+        }
     } else {
-        $('#chatStart')
-            .append($('<li>')
-                .attr("id", "user")
-                .css("color", "coral")
-                .append($('<span>' + message.sender + '</span>')
-                    .append($('<p>' + message.message + '</p>'))))
+        if (message.sender === $('#session').val()) {
+            $('#chatStart')
+                .append($('<li>')
+                    .attr("id", "user")
+                    .css("color", "coral")
+                    .append($('<span>' + message.sender + '</span>')
+                        .append($('<p>' + message.message + '</p>'))))
+        }
     }
 
     $('#chatStart').scrollTop = $('#chatStart').scrollHeight;
@@ -69,17 +95,24 @@ function onMessageReceived(payload) {
 * 메시지를 보내는 함수
 */
 function sendMessage(e) {
-    let messageContent = $('#message').val();
 
-    if (messageContent && stompClient) {
-        let chatMessage = {
-            "id": id,
-            "sender": $('#session').val(), // 세션값
-            "message": messageContent
-        };
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-        $('#message').val("");
-    }
+    $.ajax({
+        url : "firstMessage",
+        data : {"user_id" : $('#session').val()},
+        success : function(result) {
+            let messageContent = $('#message').val();
+
+            if (messageContent && stompClient) {
+                let chatMessage = {
+                    "id": result,
+                    "sender": $('#session').val(), // 세션값
+                    "message": messageContent
+                };
+                stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+                $('#message').val("");
+            }
+        }
+    })
 
     e.preventDefault();
 
@@ -117,11 +150,6 @@ function roadChat(id) {
             console.log("데이터 불러오기 실패")
         }
     });
-}
-
-//모달 test
-function matchingModal() {
-    $('#modal').fadeIn(250);
 }
 
 // 매칭하기 메서드
@@ -185,7 +213,7 @@ function matching() {
             "mbti3": mbti3,
             "mbti4": mbti4,
             "gender": gender,
-            "user": "userA" //user_id
+            "user": $('#session').val() //user_id
         }
         console.log(sendData)
 
@@ -196,16 +224,25 @@ function matching() {
             data: JSON.stringify(sendData),
             dataType: "json",
             success: function (e) {
-                if (e === "random") {
+                console.log(e[0] + " " + e[1])
+                if (e[0] === "random") {
+                    let sendData = {
+                        "other" : e[1],
+                        "user" : $('#session').val()
+                    }
+                    stompClient.send("/app/chat.createdRoom", {}, JSON.stringify(sendData));
                     alert("랜덤매치")
-                    location.reload();
-                } else if (e === "nothing") {
+                } else if (e[0] === "nothing") {
                     alert("없음")
                 } else {
-                    setTimeout(function () {
-                        location.reload();
-                    }, 3000);
+                    let sendData = {
+                        "other" : e[1],
+                        "user" : $('#session').val()
+                    }
+                    stompClient.send("/app/chat.createdRoom", {}, JSON.stringify(sendData));
+                    alert("매칭완")
                 }
+                location.reload();
             }
         })
     }

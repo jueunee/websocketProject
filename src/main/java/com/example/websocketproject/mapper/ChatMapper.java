@@ -21,4 +21,8 @@ public interface ChatMapper {
     User matchingRandom(@Param("gender")String matching_gender, @Param("user_id")String user);
 
     void createdRoom(@Param("response_user") String responseUser, @Param("request_user") String requestUser);
+
+    Integer firstMessage(String user_id);
+
+    ChattingRoomDTO setCreatedRoom(String response_user, String request_user);
 }
