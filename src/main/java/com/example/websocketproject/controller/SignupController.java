@@ -70,8 +70,8 @@ public class SignupController {
     @GetMapping("/admin")
         public String admin(Model model) {
         List<User> memberList = userService.admin();
-        model.addAttribute("title","회원리스트");
+        System.out.println(memberList);
         model.addAttribute("memberList",memberList);
-        return "redirect:/admin";
+        return "admin";
     }
 }

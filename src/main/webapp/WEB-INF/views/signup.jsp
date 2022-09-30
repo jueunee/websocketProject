@@ -24,12 +24,10 @@
             <input type="password" id="pw" name="pw" required><br>
         </p>
         <p>
-            <label for="email">이메일</label>
-            <input type="email" id="email" name="email" required><br>
-        </p>
-        <p>
-            <label for="gender">성별</label>
-            <input type="text" id="gender" name="gender" required><br>
+            <label >성별</label>
+            <input type="checkbox" name="gender" value="f" >여성
+            <input type="checkbox" name="gender" value="m" >남성
+
         </p>
         <p>
             <label for="mbti">MBTI</label>
@@ -41,7 +39,7 @@
 <%--        <p> 현재시각은 ${joinDated}.</p>--%>
 
 </div>
-
+cs
 <script>
     // 아이디중복확인
     $("#overlappedID").click(function (){

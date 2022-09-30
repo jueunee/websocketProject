@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,28 +10,28 @@
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="/css/styles2.css" rel="stylesheet" />
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
+<%--    <link href="/css/styles2.css" rel="stylesheet" />--%>
+<%--    <style>--%>
+<%--        .bd-placeholder-img {--%>
+<%--            font-size: 1.125rem;--%>
+<%--            text-anchor: middle;--%>
+<%--            -webkit-user-select: none;--%>
+<%--            -moz-user-select: none;--%>
+<%--            user-select: none;--%>
+<%--        }--%>
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
+<%--        @media (min-width: 768px) {--%>
+<%--            .bd-placeholder-img-lg {--%>
+<%--                font-size: 3.5rem;--%>
+<%--            }--%>
+<%--        }--%>
+<%--    </style>--%>
 </head>
 <body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="/fragment/navigation :: menu(${user})">
 </nav>
-div class="container-fluid mt-3">
+<div class="container-fluid mt-3">
 <div class="row">
 
     <!-- SIDE BAR -->
@@ -39,7 +40,7 @@ div class="container-fluid mt-3">
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">회원관리</h1>
+            <h1 class="h2">Admin Page</h1>
         </div>
         <div class="table-responsive">
             <table class="table table-striped table-sm">
@@ -53,17 +54,11 @@ div class="container-fluid mt-3">
                 </thead>
                 <tbody>
 <%--                에러나면 체크--%>
-                <tr th:each="user : ${admin}">
+                <tr th:each="user : ${memberList}">
                     <form th:action="/admin" method="post" class="d-flex">
-                        <td th:text="${user.user_id}">userID</td>
-                        <td th:text="${user.grade}">Grade</td>
-                        <td>
-                            <select name="role">
-                                <option value="ROLE_SELLER">ROLE_SELLER</option>
-                                <option value="ROLE_USER">ROLE_USER</option>
-                            </select>
-                        </td>
-                        <td th:text="${user.joinDated()}">createdate</td>
+                        <td th:text="${member.user_id}"></td>
+                        <td th:text="${user.grade}"></td>
+                        <td th:text="${user.joinDated()}"></td>
                     </form>
                 </tr>
                 </tbody>
@@ -75,6 +70,6 @@ div class="container-fluid mt-3">
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="/js/scripts.js"></script>
+<%--<script src="/js/scripts.js"></script>--%>
 </body>
 </html>

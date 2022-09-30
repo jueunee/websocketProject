@@ -3,8 +3,8 @@
 <mapper namespace="com.example.websocketproject.mapper.UserMapper">
 
     <insert id="createUser" parameterType="com.example.websocketproject.entity.User">
-        insert into member(user_id, pw, email, gender, mbti)
-        values (#{user_id},#{pw},#{email},#{gender},#{mbti})
+        insert into member(user_id, pw, gender, mbti)
+        values (#{user_id},#{pw},#{gender},#{mbti})
     </insert>
 
     <select id="getList" parameterType="com.example.websocketproject.entity.User" >
