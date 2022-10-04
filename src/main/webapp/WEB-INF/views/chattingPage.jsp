@@ -45,6 +45,7 @@
                 <div>
                     <div>
                         <input type="text" id="message" placeholder="Type a message..." autocomplete="off"/>
+                        <input type='file' name='uploadFile' id="file" multiple="multiple" onchange="uploadF()">
                         <button type="submit" id="submit">보내기</button>
                     </div>
                 </div>

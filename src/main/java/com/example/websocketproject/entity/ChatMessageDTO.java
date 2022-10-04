@@ -17,6 +17,7 @@ public class ChatMessageDTO {
     private int id;
     private String sender;
     private String message;
+    private String fileName;
     private Timestamp sendDate;
 
     @Override
@@ -26,6 +27,7 @@ public class ChatMessageDTO {
                 ", id=" + id +
                 ", sender='" + sender + '\'' +
                 ", message='" + message + '\'' +
+                ", fileName='" + fileName + '\'' +
                 ", sendDate=" + sendDate +
                 '}';
     }

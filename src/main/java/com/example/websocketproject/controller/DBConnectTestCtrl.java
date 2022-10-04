@@ -23,4 +23,9 @@ public class DBConnectTestCtrl {
 
     @RequestMapping("/test")
     public String test() {return "test";}
+
+    @RequestMapping("/chat")
+    public String file(){
+        return "chat";
+    }
 }

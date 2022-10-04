@@ -46,10 +46,13 @@ function onConnected() {
 function setCreatedRoom(payload) {
     let roomMember = JSON.parse(payload.body);
 
-    if(roomMember.response_user === $('#session').val()) {
+    if (roomMember.response_user === $('#session').val()) {
         $('#chatList')
-            .append($("<li id=`"+roomMember.id+"` class='blink'>"+roomMember.request_user+ "</li>")
-                .on('click', function(){
+            .append($(`<li id="` + roomMember.id + `" class='blink'>` + roomMember.request_user + "</li>")
+                .css("display", "none")
+                .on('click', function () {
+                    $(this).removeClass("blink");
+                    id = roomMember.id;
                     roadChat(roomMember.id)
                 }))
     }
@@ -60,6 +63,10 @@ function setCreatedRoom(payload) {
 */
 function onMessageReceived(payload) {
     let message = JSON.parse(payload.body);
+
+    if ($('#' + message.id).css("display") === "none") {
+        $('#' + message.id).css('display', 'block');
+    }
 
     if (message.id === id) {
         if (message.sender !== $('#session').val()) { //세션아이디 부여
@@ -77,7 +84,7 @@ function onMessageReceived(payload) {
                     .append($('<span>' + message.sender + '</span>')
                         .append($('<p>' + message.message + '</p>'))))
         }
-    } else {
+    } else if (id === null) {
         if (message.sender === $('#session').val()) {
             $('#chatStart')
                 .append($('<li>')
@@ -85,7 +92,16 @@ function onMessageReceived(payload) {
                     .css("color", "coral")
                     .append($('<span>' + message.sender + '</span>')
                         .append($('<p>' + message.message + '</p>'))))
+        } else {
+            $('#chatStart')
+                .append($('<li>')
+                    .attr("id", "other")
+                    .css("color", "skyblue")
+                    .append($('<span>' + message.sender + '</span>')
+                        .append($('<p>' + message.message + '</p>'))))
         }
+    } else {
+        return;
     }
 
     $('#chatStart').scrollTop = $('#chatStart').scrollHeight;
@@ -95,23 +111,46 @@ function onMessageReceived(payload) {
 * 메시지를 보내는 함수
 */
 function sendMessage(e) {
-    const send = {
-        "request_user" : $('#session').val(),
-        "response_user" : $('#chatList li:last-child').text()
-    };
-    console.log(send)
-    $.ajax({
-        url: "firstMessage",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(send),
-        dataType: "json",
-        success: function (result) {
+    if (id === null) {
+        let first_id = $('#chatList li:last-child').text()
+
+        if ($("#chatStart > li").val() === undefined) {
+
+            const send = {
+                "request_user": $(' #session').val(),
+                "response_user": $('#chatList li:last-child').text()
+            };
+
+            $.ajax({
+                url: "firstMessage",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(send),
+                dataType: "json",
+                success: function (result) {
+                    $('#chatList li:last-child')
+                        .append($("<input type='hidden' id=" + first_id + " value=" + result + ">"))
+
+                    let messageContent = $('#message').val();
+
+                    if (messageContent && stompClient) {
+                        let chatMessage = {
+                            "id": result,
+                            "sender": $('#session').val(), // 세션값
+                            "message": messageContent
+                        };
+                        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+                        $('#message').val("");
+
+                    }
+                }
+            })
+        } else {
             let messageContent = $('#message').val();
 
             if (messageContent && stompClient) {
                 let chatMessage = {
-                    "id": result,
+                    "id": $('#' + first_id).val(),
                     "sender": $('#session').val(), // 세션값
                     "message": messageContent
                 };
@@ -119,7 +158,19 @@ function sendMessage(e) {
                 $('#message').val("");
             }
         }
-    })
+    } else {
+        let messageContent = $('#message').val();
+
+        if (messageContent && stompClient) {
+            let chatMessage = {
+                "id": id,
+                "sender": $('#session').val(), // 세션값
+                "message": messageContent
+            };
+            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+            $('#message').val("");
+        }
+    }
 
     e.preventDefault();
 
@@ -141,7 +192,7 @@ function roadChat(id) {
                             .css("color", "skyblue")
                             .append($('<span>' + obj.sender + '</span>')
                                 .append($('<p>' + obj.message + '</p>')
-                                    .append($('<input type="hidden" value='+ obj.num +'>')))))
+                                    .append($('<input type="hidden" value=' + obj.num + '>')))))
                 } else {
                     $('#chatStart')
                         .append($('<li>')
@@ -149,7 +200,7 @@ function roadChat(id) {
                             .css("color", "coral")
                             .append($('<span>' + obj.sender + '</span>')
                                 .append($('<p>' + obj.message + '</p>')
-                                    .append($('<input type="hidden" value='+ obj.num +'>')))))
+                                    .append($('<input type="hidden" value=' + obj.num + '>')))))
                 }
             })
         },
@@ -233,8 +284,8 @@ function matching() {
             success: function (e) {
                 if (e[0] === "random") {
                     let sendData = {
-                        "other" : e[1],
-                        "user" : $('#session').val()
+                        "other": e[1],
+                        "user": $('#session').val()
                     }
                     stompClient.send("/app/chat.createdRoom", {}, JSON.stringify(sendData));
                     alert("랜덤매치")
@@ -242,8 +293,8 @@ function matching() {
                     alert("없음")
                 } else {
                     let sendData = {
-                        "other" : e[1],
-                        "user" : $('#session').val()
+                        "other": e[1],
+                        "user": $('#session').val()
                     }
                     stompClient.send("/app/chat.createdRoom", {}, JSON.stringify(sendData));
                     alert("매칭완")
@@ -255,9 +306,9 @@ function matching() {
 }
 
 //이전기록 불러오기 위한 업스크롤 이벤트
-$(window).on('scroll', function() {
+$(window).on('scroll', function () {
     let scrollTop = $(this).scrollTop();
-    if(scrollTop < 1) {
+    if (scrollTop < 1) {
         fetchList();
     }
 })
@@ -272,8 +323,8 @@ function fetchList() {
 
     let endNum = $('#chatStart > li > span > p > input').val();
     const data = {
-        "endNum" : endNum,
-        "id" : id
+        "endNum": endNum,
+        "id": id
     }
 
     $.ajax({
@@ -297,7 +348,7 @@ function fetchList() {
                             .css("color", "skyblue")
                             .append($('<span>' + obj.sender + '</span>')
                                 .append($('<p>' + obj.message + '</p>')
-                                    .append($('<input type="hidden" value='+ obj.num +'>')))))
+                                    .append($('<input type="hidden" value=' + obj.num + '>')))))
                 } else {
                     $('#chatStart')
                         .prepend($('<li>')
@@ -305,7 +356,7 @@ function fetchList() {
                             .css("color", "coral")
                             .append($('<span>' + obj.sender + '</span>')
                                 .append($('<p>' + obj.message + '</p>')
-                                    .append($('<input type="hidden" value='+ obj.num +'>')))))
+                                    .append($('<input type="hidden" value=' + obj.num + '>')))))
                 }
             })
         }
@@ -341,4 +392,53 @@ function selectAll(selectAll) {
     checkboxes4.forEach((checkbox) => {
         checkbox.checked = selectAll.checked;
     })
+}
+
+// 파일 업로드 -- 진행중
+function uploadF() {
+    let ws = new WebSocket('ws://localhost:8080/binary');
+    ws.binaryType = 'blob';
+    ws.onopen = function () {
+        console.log('open socket');
+
+        let inputFile = $("input[name='uploadFile']");
+        let files = inputFile[0].files;
+        ws.send(files);
+    }
+
+
+    ws.onmessage = function (message) {
+        var blob = message.data;
+        var fileReader = new FileReader();
+        fileReader.onload = function (event) {
+            var arrayBuffer = event.target.result;
+            var dataview = new DataView(arrayBuffer);
+            var answer = dataview.getFloat64(0);
+            alert("Server> : " + answer);
+        };
+        fileReader.readAsArrayBuffer(blob);
+    };
+
+
+    /*let formData = new FormData();
+    let inputFile = $("input[name='uploadFile']");
+    let files = inputFile[0].files;
+    let fileReader = new FileReader();
+
+    // formData에 fileData 추가
+    for (let i = 0; i < files.length; i++) {
+        formData.append("uploadFile", files[i]);
+    }
+
+    let info = {
+        type: "blob",
+        file: formData
+    }
+    stompClient.send("/app/chat.sendFile", {}, JSON.stringify(info));
+
+    arrayBuffer = this.result;
+    stompClient.send("/app/chat.sendFile", {}, arrayBuffer);
+    console.log("이건 뭐지??? : " + arrayBuffer)
+    $('#file').val("");*/
+
 }
