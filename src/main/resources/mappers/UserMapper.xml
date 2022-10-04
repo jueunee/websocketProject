@@ -10,16 +10,31 @@
     <select id="getList" parameterType="com.example.websocketproject.entity.User" >
         select * from member
     </select>
+
     <select id="getUser" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User" >
         select *
         from member
         where user_id=#{user_id} and pw=#{pw}
     </select>
+
     <select id="overlappedID" parameterType="String" resultType="int">
         select count(*) From member where user_id=#{user_id}
     </select>
-    <select id="admin" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User">
-        select user_id,grade,joinDated
+
+    <select id="admin_login" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User" >
+        select *
         from member
+        where user_id=#{user_id} and pw=#{pw} and grade='A'
+    </select>
+
+    <select id="admin" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User">
+        select user_id,grade,joinDated,reportcheck,blockcheck
+        from member
+    </select>
+
+    <select id="blockView" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User">
+        select user_id,reportcheck,blockcheck
+        from member
+        where blockcheck='Y'
     </select>
 </mapper>

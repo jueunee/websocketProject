@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -33,18 +34,37 @@ public class SignupController {
     @PostMapping("/login")
     public String getSelectOne(User user, HttpSession session) throws Exception {
         List<User> result = userService.getUser(user);
+        ModelAndView mav = new ModelAndView();
         if (result.size() != 0) {//로그인성공시 세션을 생성, null이 아니면 세션고유의값 리턴
             session.setAttribute("member", user);//세션에 로그인된 회원 인증성공
             return "redirect:/chattingPage";
         } else {
+            mav.setViewName("/login");
+            mav.addObject("msg","failure");
             return "redirect:/login";
         }
     }
 
-    //    @RequestMapping("/index")
-//    public String main() {
-//        return "index";
-//    }
+    //관리자페이지로 로그인하기
+    @GetMapping("adminlogin")
+    public void getSelectOne2() throws Exception {
+    }
+    @RequestMapping("adminlogin")
+    public String login(){
+        return "adminlogin";
+    }
+    @PostMapping("/adminlogin")
+    public String getSelectOne2(User user, HttpSession session) throws Exception {
+        List<User> result = userService.admin_login(user);
+        System.out.println(result);
+        if (result.size() != 0) {//로그인성공시 세션을 생성, null이 아니면 세션고유의값 리턴
+            session.setAttribute("member", user);//세션에 로그인된 회원 인증성공
+            return "redirect:/admin";
+        } else {
+            return "redirect:/adminlogin";
+        }
+    }
+
     //로그아웃, 세션 초기화
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) throws Exception {
@@ -67,11 +87,21 @@ public class SignupController {
         return "signup";
     }
 
+
+//관리자페이지 데이터조회
     @GetMapping("/admin")
         public String admin(Model model) {
         List<User> memberList = userService.admin();
         System.out.println(memberList);
-        model.addAttribute("memberList",memberList);
+        model.addAttribute("list",memberList);
         return "admin";
+    }
+
+//블락유저들 데이터조회
+    @GetMapping("blockview")
+        public String blockview(Model model){
+        List<User> memberList2 = userService.blockView();
+        model.addAttribute("list2",memberList2);
+        return "blockview";
     }
 }

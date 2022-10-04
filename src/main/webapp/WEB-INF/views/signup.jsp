@@ -39,7 +39,7 @@
 <%--        <p> 현재시각은 ${joinDated}.</p>--%>
 
 </div>
-cs
+
 <script>
     // 아이디중복확인
     $("#overlappedID").click(function (){

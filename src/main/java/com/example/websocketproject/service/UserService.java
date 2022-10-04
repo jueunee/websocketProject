@@ -39,5 +39,15 @@ public class UserService {
         List<User> memberList = userMapper.admin();
         return memberList;
     }
+
+    public List<User> admin_login(User user) {
+        List<User> result1 = userMapper.admin_login(user);
+
+        return result1;
+    }
+    public List<User> blockView(){
+        List<User> memberList2 = userMapper.blockView();
+        return memberList2;
+    }
 }
 

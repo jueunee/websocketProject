@@ -15,6 +15,6 @@ public interface UserMapper {
     public int overlappedID(String id) throws Exception;
 
     public List<User> admin();
-
-
+    List<User> admin_login(User user);
+    public List<User> blockView();
 }

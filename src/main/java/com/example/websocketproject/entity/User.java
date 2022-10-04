@@ -12,22 +12,25 @@ import java.util.Date;
 public class User {
     private String user_id;
     private String pw;
-    private String name;
-    private String email;
     private String gender;
     private String mbti;
+    private char grade;
     private Date joinDated;
-
+    private int reportcheck;
+    private char blockcheck;
     @Override
     public String toString() {
         return "User{" +
                 "user_id='" + user_id + '\'' +
                 ", pw='" + pw + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
                 ", mbti='" + mbti + '\'' +
+                ", grade=" + grade +
                 ", joinDated=" + joinDated +
+                ", reportcheck=" + reportcheck +
+                ", blockcheck=" + blockcheck +
                 '}';
     }
+
+
 }

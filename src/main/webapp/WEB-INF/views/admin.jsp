@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <html>
@@ -7,69 +10,61 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin</title>
-    <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-<%--    <link href="/css/styles2.css" rel="stylesheet" />--%>
-<%--    <style>--%>
-<%--        .bd-placeholder-img {--%>
-<%--            font-size: 1.125rem;--%>
-<%--            text-anchor: middle;--%>
-<%--            -webkit-user-select: none;--%>
-<%--            -moz-user-select: none;--%>
-<%--            user-select: none;--%>
-<%--        }--%>
-
-<%--        @media (min-width: 768px) {--%>
-<%--            .bd-placeholder-img-lg {--%>
-<%--                font-size: 3.5rem;--%>
-<%--            }--%>
-<%--        }--%>
-<%--    </style>--%>
 </head>
+<link rel="stylesheet" href="static/css/admin.css">
 <body>
-<!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="/fragment/navigation :: menu(${user})">
-</nav>
-<div class="container-fluid mt-3">
-<div class="row">
-
-    <!-- SIDE BAR -->
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" th:replace="/fragment/navigation :: side(${user})">
+    <header>
+        <h1>Admin Page</h1>
+    </header>
+    <c:choose>
+    <c:when test="${not empty member}">
+    <c:if test="${member.user_id eq 'admin'}">
+    <nav>
+        <ul class="nav-container">
+            <li class="nav-item"><a href="/blockview">차단리스트</a></li>
+            <li class="nav-item"><a href="">회원정보 수정</a></li>
+        </ul>
     </nav>
+    <table class="member">
+        <caption>Member Information</caption>
+        <thead>
+        <tr>
+            <th scope="col">UserId</th>
+            <th scope="col">UserGrade</th>
+            <th scope="col">JoinDated</th>
+            <th scope="col">ReportedCheck</th>
+            <th scope="col">BlockUser</th>
+            <th scope="col">UpdateBlockUser</th>
+            <th scope="col">Update</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%--                에러나면 체크--%>
+        <c:forEach var="list" items="${list}">
+            <tr>
+                <form th:action="@{/user/change/{id}(id=${user.user_id})}" method="post">
+                    <td>${list.user_id}</td>
+                    <td>${list.grade}</td>
+                    <td>${list.joinDated}</td>
+                    <td>${list.reportcheck}</td>
+                    <td>${list.blockcheck}</td>
+                    <td>
+                        <select name="report">
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit">Update</button>
+                    </td>
+                </form>
+            </tr>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Admin Page</h1>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-striped table-sm">
-                <thead>
-                <tr>
-                    <th scope="col">UserId</th>
-                    <th scope="col">UserRole</th>
-                    <th scope="col">ReportedCheck</th>
-                    <th scope="col">BlockUser</th>
-                </tr>
-                </thead>
-                <tbody>
-<%--                에러나면 체크--%>
-                <tr th:each="user : ${memberList}">
-                    <form th:action="/admin" method="post" class="d-flex">
-                        <td th:text="${member.user_id}"></td>
-                        <td th:text="${user.grade}"></td>
-                        <td th:text="${user.joinDated()}"></td>
-                    </form>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-</div>
-</div>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<%--<script src="/js/scripts.js"></script>--%>
+        </c:forEach>
+        </tbody>
+    </table>
+    </c:if>
+    </c:when>
+    </c:choose>
 </body>
 </html>
