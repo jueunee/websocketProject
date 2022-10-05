@@ -6,73 +6,57 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        .login-form {
+            width: 340px;
+            margin: 50px auto;
+            font-size: 15px;
+        }
+        .login-form form {
+            margin-bottom: 15px;
+            background: #f7f7f7;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+        .login-form h2 {
+            margin: 0 0 15px;
+        }
+        .form-control, .btn {
+            min-height: 38px;
+            border-radius: 2px;
+        }
+        .btn {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
-<h1>Login</h1>
-<form action="/login" method='POST'>
-    <table>
-        <tr>
-            <td>Id:</td>
-            <td><input type='text' name='user_id' id="user_id"></td>
-        </tr>
-        <div class="check_font" id="id_check"></div>
-        <tr>
-            <td>Password:</td>
-            <td><input type='password' name='pw' id="pw" /></td>
-        </tr>
-        <tr>
-            <td><input name="submit" type="submit" value="submit" /></td>
-            <c:if test="${msg=='failure'}">
-                <div style="color: red">Wrong Information, Try again.</div>
-            </c:if>
-            <p><a href="/signupPage">Sign Up</a> </p>
-            <p><a href="/adminlogin">Admin Login</a> </p>
-        </tr>
-    </table>
-</form>
-<script>
+<div class="login-form">
+    <form action="/login" method="post">
+        <h2 class="text-center">Log in</h2>
+        <div class="form-group">
+            <input type="text" name='user_id' id="user_id" class="form-control" placeholder="Username" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password"  name='pw' id="pw" class="form-control" placeholder="Password" required="required">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </div>
+        <div class="clearfix">
 
-     // $("#user_id").blur(function (){
-     //     var user_id=$('user_id').val();
-     //     $.ajax({
-     //         url : '/idcheck',
-     //         type : 'get',
-     //         success : function (data){
-     //             console.log("1 = 중복o / 0 = 중복x : "+ data);
-     //
-     //             if(data == 1){
-     //                 $("id_check").text("사용중인 아이디입니다.");
-     //                 $("id_check").css("color", "red");
-     //                 $("id_check").attr("disabled",true);
-     //             } else {
-     //
-     //                 if (idJ.test(user_id)){
-     //                     $("id_check").text("");
-     //                     $("#reg_submit").attr("disabled",false);
-     //
-     //                 } else if(user_id==""){
-     //                     $("id_check").text("아이디를 입력해주세요.");
-     //                     $("id_check").css("color", "red");
-     //                     $("id_check").attr("disabled",true);
-     //
-     //                 } else{
-     //                     $("id_check").text("아이디는 소문자와 숫자 4~12자리 가능합니다.");
-     //                     $("id_check").css("color", "red");
-     //                     $("id_check").attr("disabled",true);
-     //
-     //                 }
-     //
-     //             }
-     //         }, error : function () {
-     //             console.log("실패");
-     //         }
-     //     });
-     // });
-</script>
-<!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+            <a href="/signupPage" class="float-right">Create an Account</a>
+            <a href="/adminlogin" class="float-left">Admin Login</a>
+        </div>
+    </form>
+</div>
 </body>
 </html>
 

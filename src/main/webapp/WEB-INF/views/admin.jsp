@@ -22,7 +22,6 @@
     <nav>
         <ul class="nav-container">
             <li class="nav-item"><a href="/blockview">차단리스트</a></li>
-            <li class="nav-item"><a href="">회원정보 수정</a></li>
         </ul>
     </nav>
     <table class="member">
@@ -42,24 +41,23 @@
         <%--                에러나면 체크--%>
         <c:forEach var="list" items="${list}">
             <tr>
-                <form th:action="@{/user/change/{id}(id=${user.user_id})}" method="post">
+                <form action="user/change?id=${list.user_id}" method="post">
                     <td>${list.user_id}</td>
                     <td>${list.grade}</td>
                     <td>${list.joinDated}</td>
                     <td>${list.reportcheck}</td>
                     <td>${list.blockcheck}</td>
                     <td>
-                        <select name="report">
+                        <select name="blockcheck">
                             <option value="Y">Y</option>
                             <option value="N">N</option>
                         </select>
                     </td>
                     <td>
-                        <button type="submit">Update</button>
+                        <button id="update">Update</button>
                     </td>
                 </form>
             </tr>
-
         </c:forEach>
         </tbody>
     </table>

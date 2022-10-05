@@ -31,9 +31,18 @@
         select user_id,grade,joinDated,reportcheck,blockcheck
         from member
     </select>
-
+    <update id="blockchange" parameterType="String">
+            update member
+            set blockcheck=#{blockcheck}
+            where user_id=#{user_id}
+    </update>
     <select id="blockView" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User">
         select user_id,reportcheck,blockcheck
+        from member
+        where blockcheck='Y'
+    </select>
+    <select id="blockcheck" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User">
+        select count(*)
         from member
         where blockcheck='Y'
     </select>

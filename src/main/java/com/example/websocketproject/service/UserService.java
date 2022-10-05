@@ -1,7 +1,6 @@
 package com.example.websocketproject.service;
 
 import com.example.websocketproject.entity.User;
-import com.example.websocketproject.entity.UserDTO;
 import com.example.websocketproject.mapper.UserMapper;
 
 
@@ -48,6 +47,15 @@ public class UserService {
     public List<User> blockView(){
         List<User> memberList2 = userMapper.blockView();
         return memberList2;
+    }
+    public int blockchange(String id, String blockcheck) {
+        int result2 = userMapper.blockchange(id, blockcheck);
+        System.out.println(result2);
+        return result2;
+    }
+    public int blockcheck(String blockcheck) throws Exception{
+       int result3 = userMapper.blockcheck(blockcheck);
+       return result3;
     }
 }
 

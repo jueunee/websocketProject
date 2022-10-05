@@ -17,7 +17,7 @@ public class User {
     private char grade;
     private Date joinDated;
     private int reportcheck;
-    private char blockcheck;
+    private String blockcheck;
     @Override
     public String toString() {
         return "User{" +

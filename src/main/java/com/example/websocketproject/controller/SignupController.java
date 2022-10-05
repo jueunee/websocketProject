@@ -35,12 +35,16 @@ public class SignupController {
     public String getSelectOne(User user, HttpSession session) throws Exception {
         List<User> result = userService.getUser(user);
         ModelAndView mav = new ModelAndView();
-        if (result.size() != 0) {//로그인성공시 세션을 생성, null이 아니면 세션고유의값 리턴
-            session.setAttribute("member", user);//세션에 로그인된 회원 인증성공
-            return "redirect:/chattingPage";
+        if (result.size() != 0) {//차단된 유저들 로그인 정지
+            if (result.get(0).getBlockcheck().equals("Y")) {
+                return "login";
+            } else {//로그인성공시 세션을 생성, null이 아니면 세션고유의값 리턴
+                session.setAttribute("member", user);//세션에 로그인된 회원 인증성공
+                return "redirect:/chattingPage";
+            }
         } else {
             mav.setViewName("/login");
-            mav.addObject("msg","failure");
+            mav.addObject("msg", "failure");
             return "redirect:/login";
         }
     }
@@ -49,10 +53,12 @@ public class SignupController {
     @GetMapping("adminlogin")
     public void getSelectOne2() throws Exception {
     }
+
     @RequestMapping("adminlogin")
-    public String login(){
+    public String login() {
         return "adminlogin";
     }
+
     @PostMapping("/adminlogin")
     public String getSelectOne2(User user, HttpSession session) throws Exception {
         List<User> result = userService.admin_login(user);
@@ -88,20 +94,35 @@ public class SignupController {
     }
 
 
-//관리자페이지 데이터조회
+    //관리자페이지 데이터조회
     @GetMapping("/admin")
-        public String admin(Model model) {
+    public String admin(Model model) {
         List<User> memberList = userService.admin();
-        System.out.println(memberList);
-        model.addAttribute("list",memberList);
+//        System.out.println(memberList);
+        model.addAttribute("list", memberList);
         return "admin";
     }
 
-//블락유저들 데이터조회
+    //관리자페이지 블락유저 수정
+    @RequestMapping("/user/change")
+    public String userChange(@RequestParam("id") String id, User user) {
+        userService.blockchange(id, user.getBlockcheck());
+        return "index";
+    }
+
+    //블락유저들 데이터조회
     @GetMapping("blockview")
-        public String blockview(Model model){
+    public String blockview(Model model) {
         List<User> memberList2 = userService.blockView();
-        model.addAttribute("list2",memberList2);
+        model.addAttribute("list2", memberList2);
         return "blockview";
+    }
+
+    //블락유저들 계정정지
+    @ResponseBody
+    @GetMapping("/blockcheck")
+    public int blockcheck(String blockcheck) throws Exception {
+        int result = userService.blockcheck(blockcheck);
+        return result;
     }
 }
