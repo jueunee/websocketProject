@@ -96,7 +96,6 @@
             text-align: center;
         }
     </style>
-    <script src="static/js/join_check.js"></script>
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -139,20 +138,20 @@
                     <option value="ISFP">ISFP</option>
                 </select>
             </td>
-<%--            <input type="text" id="mbti" name="mbti" placeholder="MBTI" required><br>--%>
+
         </div>
         <div class="form-group">
-            <button type="submit" id="join" onclick="javascript:btn()" class="btn btn-primary btn-lg">회원가입</button>
+            <button type="submit" id="join" class="btn btn-primary btn-lg">회원가입</button>
         </div>
-        <div class="hint-text">Already have an account? <a href="/login">Login here</a></div>
+        <div class="hint-text">Already have an account? <a href="/login">Login here</a>
+           <br> Don't you know your MBTI type? <a href="https://www.16personalities.com">Go to MBTI site</a>
+        </div>
+
     </form>
 
 </div>
 
 <script>
-    // function btn(){
-    //     alert('회원가입 완료되었습니다.');
-    // }
     // 아이디중복확인
     $("#overlappedID").click(function (){
        const id =$("#user_id").val();

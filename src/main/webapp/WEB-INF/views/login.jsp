@@ -39,6 +39,12 @@
 </head>
 
 <body>
+<script type="text/javascript">
+    var msg = "<c:out value="${msg}" />";
+    if(msg != ""){
+        alert(msg);
+    }
+</script>
 <div class="login-form">
     <form action="/login" method="post">
         <h2 class="text-center">Log in</h2>
@@ -68,42 +74,7 @@
         </div>
     </form>
 </div>
-<script>
-    <%--$(function (){--%>
-    <%--    --%>
-    <%--    let message= '[[${msg}]]';--%>
-    <%--    if (message != ""){--%>
-    <%--        alert("failure");--%>
-    <%--    } else{--%>
 
-    <%--    }--%>
-    <%--})--%>
-    $(function() {
-        $('#submitBtn').mouseenter(function() {
-            $(this).css('cursor','pointer') ;
-        }).mouseout(function() {
-            $(this).css('cursor','normal') ;
-        }).click(function() {
-            submitCheck() ;
-        }) ;
-    }) ;
-
-    function submitCheck() {
-        var user_id  = $('#user_id' ).val() ;
-        var pw = $('#pw').val() ;
-        $.ajax({
-            type : "POST",
-            url: 'login.me',
-            data: {user_id:user_id, pw:pw},
-            success: function(data) {
-                if(data == "false")
-                    alert('잘못된 아이디이거나, 비밀번호가 틀렸습니다.') ;
-                else
-                    location.href="${contextPath}" ; // home.do로 돌아가시면 됩니다.
-            }
-        }) ;
-    }
-</script>
 </body>
 </html>
 

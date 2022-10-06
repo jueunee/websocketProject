@@ -51,8 +51,14 @@
                     <td>${list.blockcheck}</td>
                     <td>
                         <select name="blockcheck">
-                            <option value="Y">Y</option>
-                            <option value="N">N</option>
+                            <c:if test="${list.blockcheck =='Y'}">
+                                <option value="Y" selected>Y</option>
+                                <option value="N">N</option>
+                            </c:if>
+                            <c:if test="${list.blockcheck =='N'}">
+                                <option value="Y">Y</option>
+                                <option value="N" selected>N</option>
+                            </c:if>
                         </select>
                     </td>
                     <td>

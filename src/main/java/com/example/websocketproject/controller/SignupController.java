@@ -89,14 +89,12 @@ public class SignupController {
     }
 
     @RequestMapping(value = "/signup1")
-    public String postSignup(User user) {
-        System.out.println("postttttt sign up");
-        System.out.println("user sign up");
+    public String postSignup(User user, Model model) {
         System.out.println(user);
         userService.createUser(user);
+        model.addAttribute("msg", "회원가입 완료");
         return "login";
     }
-
 
     //관리자페이지 데이터조회
     @GetMapping("/admin")
