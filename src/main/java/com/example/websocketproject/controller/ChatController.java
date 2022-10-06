@@ -4,6 +4,7 @@ import com.example.websocketproject.entity.*;
 import com.example.websocketproject.mapper.ChatMapper;
 import com.example.websocketproject.service.ChatService;
 import com.google.gson.Gson;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -124,26 +126,34 @@ public class ChatController {
     }
 
     @RequestMapping("/chattingPage")
-    public String chattingPage(Model model, HttpSession session) {
+    public String chattingPage(Model model, HttpSession session, @RequestParam(value = "user_id", required = false) String id) {
         User user = (User) session.getAttribute("member");
         String user_id = user.getUser_id();
 
         List<ChattingRoomDTO> chatList = chatMapper.chatList(user_id);
         List<ChatListDTO> chatListDTOS = new ArrayList<>();
-
+        List<ChattingRoomDTO> checkedList = new ArrayList<>();
         if (chatList.size() != 0) {
             for (int i = 0; i < chatList.size(); i++) {
-                if (chatList.get(i).getRequest_user().equals(user_id)) {
-                    ChatListDTO dto = new ChatListDTO();
-                    dto.set_id(chatList.get(i).getId());
-                    dto.setUser_id(chatList.get(i).getResponse_user());
-                    chatListDTOS.add(dto);
-                } else {
-                    ChatListDTO dto = new ChatListDTO();
-                    dto.set_id(chatList.get(i).getId());
-                    dto.setUser_id(chatList.get(i).getRequest_user());
-                    chatListDTOS.add(dto);
+                String check = chatList.get(i).getDeleteUser();
+                if (!check.equals("admin") && !check.equals(user_id)) {
+                    checkedList.add(chatList.get(i));
                 }
+            }
+        }
+
+
+        for (ChattingRoomDTO chattingRoomDTO : checkedList) {
+            if (chattingRoomDTO.getRequest_user().equals(user_id)) {
+                ChatListDTO dto = new ChatListDTO();
+                dto.set_id(chattingRoomDTO.getId());
+                dto.setUser_id(chattingRoomDTO.getResponse_user());
+                chatListDTOS.add(dto);
+            } else if (chattingRoomDTO.getResponse_user().equals(user_id)) {
+                ChatListDTO dto = new ChatListDTO();
+                dto.set_id(chattingRoomDTO.getId());
+                dto.setUser_id(chattingRoomDTO.getRequest_user());
+                chatListDTOS.add(dto);
             }
         }
 
@@ -157,7 +167,7 @@ public class ChatController {
 
         List<ChatMessageDTO> chatMessage = chatMapper.roadChat(id);
         List<ChatMessageDTO> chatMessageDESC = new ArrayList<>();
-        for (int i = chatMessage.size()-1; i >= 0; i--) {
+        for (int i = chatMessage.size() - 1; i >= 0; i--) {
             chatMessageDESC.add(chatMessage.get(i));
         }
 
@@ -177,9 +187,30 @@ public class ChatController {
         int id = Integer.parseInt(request.get("id").toString());
         int num = Integer.parseInt(request.get("endNum").toString());
 
-        List<ChatMessageDTO> chatMessage = chatMapper.roadNextChat(id, num);
+        if (request.get("id").toString() == null) {
+            return null;
+        } else {
 
-        return chatMessage;
+            List<ChatMessageDTO> chatMessage = chatMapper.roadNextChat(id, num);
+
+            return chatMessage;
+        }
+    }
+
+    @RequestMapping("/deleteRoom")
+    public @ResponseBody int deleteRoom(@RequestBody Map<String, Object> request) {
+        String user_id = request.get("user_id").toString();
+        int id = Integer.parseInt(request.get("id").toString());
+        int result = 0;
+
+        ChattingRoomDTO check = chatMapper.checkRoom(id);
+        if (check.getDeleteUser().equals("null")) {
+            result = chatMapper.deleteRoom(user_id, id);
+        } else {
+            result = chatMapper.adminManageRoom(id);
+        }
+
+        return result;
     }
 
 }

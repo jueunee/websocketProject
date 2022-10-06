@@ -23,6 +23,7 @@ header {
 .blink {
     -webkit-animation: blink 0.5s linear infinite;
 }
+
 @keyframes blink {
     /*0% 부터 100% 까지*/
     0% { color:black;}

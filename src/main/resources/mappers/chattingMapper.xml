@@ -9,8 +9,8 @@
     <select id="chatList" parameterType="String" resultType="com.example.websocketproject.entity.ChattingRoomDTO">
         select *
         from chattingroom
-        where request_user = #{id}
-        or response_user = #{id}
+        where response_user = #{id}
+        or request_user = #{id}
     </select>
 
     <select id="roadChat" parameterType="String" resultType="com.example.websocketproject.entity.ChatMessageDTO">
@@ -63,4 +63,22 @@
         and num <![CDATA[ < ]]> #{num}
         order by num DESC
     </select>
+
+    <select id="checkRoom" parameterType="int" resultType="com.example.websocketproject.entity.ChattingRoomDTO">
+        select *
+        from chattingroom
+        where id = #{id}
+    </select>
+
+    <update id="deleteRoom">
+        update chattingroom
+        set deleteUser = #{user_id}
+        where id = #{id}
+    </update>
+
+    <update id="adminManageRoom" parameterType="int">
+        update chattingroom
+        set deleteUser = "admin"
+        where id = #{id}
+    </update>
 </mapper>
