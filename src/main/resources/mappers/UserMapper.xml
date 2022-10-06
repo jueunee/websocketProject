@@ -30,6 +30,7 @@
     <select id="admin" parameterType="com.example.websocketproject.entity.User" resultType="com.example.websocketproject.entity.User">
         select user_id,grade,joinDated,reportcheck,blockcheck
         from member
+        where grade='U'
     </select>
     <update id="blockchange" parameterType="String">
             update member

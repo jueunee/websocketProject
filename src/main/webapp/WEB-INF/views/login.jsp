@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en"  >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -50,6 +51,16 @@
         <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">Log in</button>
         </div>
+        <c:if test="${msg == 'failure'}">
+            <div style="color: red">
+                아이디 비밀번호가 틀렸습니다.
+            </div>
+        </c:if>
+        <c:if test="${msg == 'block'}">
+            <div style="color: red">
+                정지된 회원입니다.
+            </div>
+        </c:if>
         <div class="clearfix">
 
             <a href="/signupPage" class="float-right">Create an Account</a>
@@ -57,6 +68,42 @@
         </div>
     </form>
 </div>
+<script>
+    <%--$(function (){--%>
+    <%--    --%>
+    <%--    let message= '[[${msg}]]';--%>
+    <%--    if (message != ""){--%>
+    <%--        alert("failure");--%>
+    <%--    } else{--%>
+
+    <%--    }--%>
+    <%--})--%>
+    $(function() {
+        $('#submitBtn').mouseenter(function() {
+            $(this).css('cursor','pointer') ;
+        }).mouseout(function() {
+            $(this).css('cursor','normal') ;
+        }).click(function() {
+            submitCheck() ;
+        }) ;
+    }) ;
+
+    function submitCheck() {
+        var user_id  = $('#user_id' ).val() ;
+        var pw = $('#pw').val() ;
+        $.ajax({
+            type : "POST",
+            url: 'login.me',
+            data: {user_id:user_id, pw:pw},
+            success: function(data) {
+                if(data == "false")
+                    alert('잘못된 아이디이거나, 비밀번호가 틀렸습니다.') ;
+                else
+                    location.href="${contextPath}" ; // home.do로 돌아가시면 됩니다.
+            }
+        }) ;
+    }
+</script>
 </body>
 </html>
 

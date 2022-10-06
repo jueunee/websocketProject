@@ -32,21 +32,24 @@ public class SignupController {
 
     //로그인 정보일치 확인
     @PostMapping("/login")
-    public String getSelectOne(User user, HttpSession session) throws Exception {
+    public ModelAndView getSelectOne(User user, HttpSession session) throws Exception {
         List<User> result = userService.getUser(user);
         ModelAndView mav = new ModelAndView();
         if (result.size() != 0) {//차단된 유저들 로그인 정지
             if (result.get(0).getBlockcheck().equals("Y")) {
-                return "login";
+                mav.setViewName("/login");
+                mav.addObject("msg", "block");
+                return mav;
             } else {//로그인성공시 세션을 생성, null이 아니면 세션고유의값 리턴
                 session.setAttribute("member", user);//세션에 로그인된 회원 인증성공
-                return "redirect:/chattingPage";
+                mav.setViewName("redirect:/chattingPage");
+                return mav;
             }
         } else {
             mav.setViewName("/login");
             mav.addObject("msg", "failure");
 
-            return "redirect:/login";
+            return mav;
         }
     }
 
