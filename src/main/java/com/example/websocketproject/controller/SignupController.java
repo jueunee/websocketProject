@@ -94,7 +94,7 @@ public class SignupController {
         System.out.println("user sign up");
         System.out.println(user);
         userService.createUser(user);
-        return "signup";
+        return "login";
     }
 
 

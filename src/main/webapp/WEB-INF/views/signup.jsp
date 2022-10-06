@@ -114,13 +114,13 @@
             <input type="password" id="pw" name="pw" placeholder="Password" required><br>
         </div>
         <div class="form-group">
-            <input type="radio" name="gender" value="f" >여성
-            <input type="radio" name="gender" value="m" >남성
+            <input type="radio" name="gender" value="f" required>여성
+            <input type="radio" name="gender" value="m" required>남성
         </div>
         <div class="form-group">
             <td>
                 <label>MBTI</label>
-                <select name="mbti">
+                <select name="mbti" required>
                     <option value="ESTP">ESTP</option>
                     <option value="ESTJ">ESTJ</option>
                     <option value="ENTP">ENTP</option>
@@ -142,21 +142,19 @@
 <%--            <input type="text" id="mbti" name="mbti" placeholder="MBTI" required><br>--%>
         </div>
         <div class="form-group">
-            <button type="submit" onclick="javascript:btn()" class="btn btn-primary btn-lg">회원가입</button>
+            <button type="submit" id="join" onclick="javascript:btn()" class="btn btn-primary btn-lg">회원가입</button>
         </div>
         <div class="hint-text">Already have an account? <a href="/login">Login here</a></div>
     </form>
-<%--    <div class="hint-text">Already have an account? <a href="/login">Login here</a></div>--%>
-<%--    <p><a href="/login">로그인</a> </p>--%>
+
 </div>
 
 <script>
-    function btn(){
-        alert('회원가입 완료되었습니다.');
-    }
+    // function btn(){
+    //     alert('회원가입 완료되었습니다.');
+    // }
     // 아이디중복확인
     $("#overlappedID").click(function (){
-       $("#signup").attr("type","button");
        const id =$("#user_id").val();
         let test = {"id" : id};
         console.log(id)
@@ -170,15 +168,14 @@
                     async: false,
                     data: {"id": id},
                     success : function (data){
-                        // console.log("1 = 중복o / 0 = 중복x : "+ data);
                         if(data == 1){
                             $("#olmessage").text("사용중인 아이디입니다.");
                             $("#olmessage").css("color","red");
-                        }
-                        else {
+                            $("#join").attr("disabled", "disabled");
+                        } else {
                             $("#olmessage").text("사용 가능한 ID 입니다.");
                             $("#olmessage").css("color","blue");
-                            $("#signup").attr("type", "submit");
+                            $("#join").removeAttr("disabled");
                         }
                     }
                 });

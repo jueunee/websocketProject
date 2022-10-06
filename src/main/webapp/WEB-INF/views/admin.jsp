@@ -40,7 +40,7 @@
         </tr>
         </thead>
         <tbody>
-        <%--                에러나면 체크--%>
+
         <c:forEach var="list" items="${list}">
             <tr>
                 <form action="user/change?id=${list.user_id}" method="post">
@@ -56,7 +56,7 @@
                         </select>
                     </td>
                     <td>
-                        <button onclick="javascript:btn()" id="update">Update</button>
+                        <button onclick="update(${admin.id})">Update</button>
                     </td>
                 </form>
             </tr>
@@ -67,8 +67,10 @@
     </c:when>
     </c:choose>
     <script>
-        function btn(){
-            alert('수정 완료');
+        function update(id){
+            if(confirm("수정하시겠습니까?")){
+                alert('수정완료');
+            }
         }
     </script>
 </body>
