@@ -27,4 +27,10 @@ public interface ChatMapper {
     ChattingRoomDTO setCreatedRoom(String response_user, String request_user);
 
     List<ChatMessageDTO> roadNextChat(@Param("id")int id, @Param("num")int num);
+
+    ChattingRoomDTO checkRoom(int id);
+
+    int deleteRoom(String user_id, int id);
+
+    int adminManageRoom(int id);
 }

@@ -5,7 +5,20 @@ let isEnd = false; // 채팅메시지를 끝까지 다 불러왔을 경우 체�
 $(document).ready(function () {
     connect(); //웹소켓 연결 함수 실행
     document.querySelector('#messageForm').addEventListener('submit', sendMessage, true)
-    history.replaceState({}, null, location.pathname);
+
+    // 파라미터받기
+    let queryString = location.search;
+    const urlParam = new URLSearchParams(queryString)
+    if (urlParam.get("user_id") !== null) {
+        $('#mainBox').css("display", "none");
+        $('#messageBox').css("display", "block");
+
+        $('#otherName').text(urlParam.get("user_id"));
+
+        history.replaceState({}, null, location.pathname); // url 파라미터 지우기
+    } else {
+        history.replaceState({}, null, location.pathname);
+    }
 
     $('.modalClose').click(function () {
         $('#modal').fadeOut(150);
@@ -13,8 +26,19 @@ $(document).ready(function () {
     });
 
     $('#chatList li').click(function () {
+        $('#mainBox').css("display", "none");
+        $('#messageBox').css("display", "block");
+
+        $('#otherName').text($(this).text())
+
         isEnd = false;
         id = $(this).attr('id');
+        $('#otherName')
+            .append($('<button id="'+id+'">신고하기</button>')
+                .on('click',function() {
+                    reportUser($('#otherName').text());
+                }))
+
         roadChat(id);
     });
 });
@@ -52,6 +76,9 @@ function setCreatedRoom(payload) {
                 .css("display", "none")
                 .on('click', function () {
                     $(this).removeClass("blink");
+                    $('#mainBox').css("display", "none");
+                    $('#messageBox').css("display", "block");
+
                     id = roomMember.id;
                     roadChat(roomMember.id)
                 }))
@@ -288,18 +315,21 @@ function matching() {
                         "user": $('#session').val()
                     }
                     stompClient.send("/app/chat.createdRoom", {}, JSON.stringify(sendData));
-                    alert("랜덤매치")
+                    $('#modal').fadeOut(150);
                 } else if (e[0] === "nothing") {
                     alert("없음")
                 } else {
+                    $('#mainBox').css("display", "none");
+                    $('#messageBox').css("display", "block");
+
                     let sendData = {
                         "other": e[1],
                         "user": $('#session').val()
                     }
                     stompClient.send("/app/chat.createdRoom", {}, JSON.stringify(sendData));
-                    alert("매칭완")
+                    $('#modal').fadeOut(150);
                 }
-                location.reload();
+                location.href = location.href + "?user_id=" + e[1];
             }
         })
     }
@@ -392,6 +422,36 @@ function selectAll(selectAll) {
     checkboxes4.forEach((checkbox) => {
         checkbox.checked = selectAll.checked;
     })
+}
+
+// 방 나가기
+function deleteRoom(e) {
+    console.log(e)
+    let deleteUser = {
+        "user_id" : $('#session').val(),
+        "id" : e
+    }
+
+    $.ajax({
+        url: "deleteRoom",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(deleteUser),
+        dataType: "json",
+        success: function (message) {
+            if (message == 1) {
+                alert("나가기 완료!")
+                location.reload()
+            } else {
+                alert("다시 시도")
+            }
+        }
+    })
+}
+
+// 유저 신고하기
+function reportUser(e) {
+    console.log(e);
 }
 
 // 파일 업로드 -- 진행중

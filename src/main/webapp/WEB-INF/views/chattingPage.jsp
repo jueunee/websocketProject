@@ -25,6 +25,7 @@
             <ul class="nav nav-pills nav-stacked" id="chatList">
                 <c:forEach var="list" items="${list}">
                     <li id='${list._id}'>${list.user_id}</li>
+                    <button onclick="deleteRoom(${list._id})">방 나가기</button>
                 </c:forEach>
             </ul><br>
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">매칭하기</button>
@@ -35,8 +36,14 @@
             </div>
         </div>
 
+        <div id="mainBox">
+            <h1>together</h1>
+            <h4>MBTI Random Chat</h4>
+        </div>
+
         <div class="col-sm-9">
-            <h4><small>RECENT POSTS</small></h4>
+            <div id="messageBox" style="display: none">
+            <h4 id="otherName">RECENT POSTS</h4>
             <hr>
             <ul id="chatStart">
 
@@ -45,11 +52,12 @@
                 <div>
                     <div>
                         <input type="text" id="message" placeholder="Type a message..." autocomplete="off"/>
-                        <input type='file' name='uploadFile' id="file" multiple="multiple" onchange="uploadF()">
+                        <!--<input type='file' name='uploadFile' id="file" multiple="multiple" onchange="uploadF()">-->
                         <button type="submit" id="submit">보내기</button>
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 </div>
@@ -88,6 +96,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
