@@ -34,9 +34,9 @@ $(document).ready(function () {
         isEnd = false;
         id = $(this).attr('id');
         $('#otherName')
-            .append($('<button id="'+id+'">신고하기</button>')
+            .append($('<button id="'+$(this).text()+'">신고하기</button>')
                 .on('click',function() {
-                    reportUser($('#otherName').text());
+                    reportUser($(this).attr("id"));
                 }))
 
         roadChat(id);
@@ -95,7 +95,7 @@ function onMessageReceived(payload) {
         $('#' + message.id).css('display', 'block');
     }
 
-    if (message.id === id) {
+    if (id != null && message.id == id) {
         if (message.sender !== $('#session').val()) { //세션아이디 부여
             $('#chatStart')
                 .append($('<li>')
@@ -127,8 +127,6 @@ function onMessageReceived(payload) {
                     .append($('<span>' + message.sender + '</span>')
                         .append($('<p>' + message.message + '</p>'))))
         }
-    } else {
-        return;
     }
 
     $('#chatStart').scrollTop = $('#chatStart').scrollHeight;
@@ -139,13 +137,13 @@ function onMessageReceived(payload) {
 */
 function sendMessage(e) {
     if (id === null) {
-        let first_id = $('#chatList li:last-child').text()
+        let first_id = $('#chatList li').last().text()
 
         if ($("#chatStart > li").val() === undefined) {
 
             const send = {
                 "request_user": $(' #session').val(),
-                "response_user": $('#chatList li:last-child').text()
+                "response_user": $('#chatList li').last().text()
             };
 
             $.ajax({
@@ -155,7 +153,7 @@ function sendMessage(e) {
                 data: JSON.stringify(send),
                 dataType: "json",
                 success: function (result) {
-                    $('#chatList li:last-child')
+                    $('#chatList li').last()
                         .append($("<input type='hidden' id=" + first_id + " value=" + result + ">"))
 
                     let messageContent = $('#message').val();
@@ -451,7 +449,7 @@ function deleteRoom(e) {
 
 // 유저 신고하기
 function reportUser(e) {
-    console.log(e);
+
 }
 
 // 파일 업로드 -- 진행중
@@ -459,7 +457,7 @@ function uploadF() {
     let ws = new WebSocket('ws://localhost:8080/binary');
     ws.binaryType = 'blob';
     ws.onopen = function () {
-        console.log('open socket');
+        console.log('open socket');g
 
         let inputFile = $("input[name='uploadFile']");
         let files = inputFile[0].files;
