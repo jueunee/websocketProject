@@ -142,7 +142,7 @@
 <%--            <input type="text" id="mbti" name="mbti" placeholder="MBTI" required><br>--%>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg">회원가입</button>
+            <button type="submit" onclick="javascript:btn()" class="btn btn-primary btn-lg">회원가입</button>
         </div>
         <div class="hint-text">Already have an account? <a href="/login">Login here</a></div>
     </form>
@@ -151,6 +151,9 @@
 </div>
 
 <script>
+    function btn(){
+        alert('회원가입 완료되었습니다.');
+    }
     // 아이디중복확인
     $("#overlappedID").click(function (){
        $("#signup").attr("type","button");

@@ -10,11 +10,13 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin</title>
+
 </head>
 <link rel="stylesheet" href="static/css/admin.css">
 <body>
     <header>
         <h1>Admin Page</h1>
+        <a href="/logout">로그아웃</a>
     </header>
     <c:choose>
     <c:when test="${not empty member}">
@@ -54,7 +56,7 @@
                         </select>
                     </td>
                     <td>
-                        <button id="update">Update</button>
+                        <button onclick="javascript:btn()" id="update">Update</button>
                     </td>
                 </form>
             </tr>
@@ -64,5 +66,11 @@
     </c:if>
     </c:when>
     </c:choose>
+    <script>
+        function btn(){
+            alert('수정 완료');
+        }
+    </script>
 </body>
+
 </html>

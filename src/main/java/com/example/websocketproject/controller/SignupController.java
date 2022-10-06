@@ -108,7 +108,7 @@ public class SignupController {
     @RequestMapping("/user/change")
     public String userChange(@RequestParam("id") String id, User user) {
         userService.blockchange(id, user.getBlockcheck());
-        return "index";
+        return "redirect:/admin";
     }
 
     //블락유저들 데이터조회

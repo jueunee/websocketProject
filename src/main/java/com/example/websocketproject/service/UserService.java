@@ -48,7 +48,7 @@ public class UserService {
         List<User> memberList2 = userMapper.blockView();
         return memberList2;
     }
-<<<<<<< HEAD
+
     public int blockchange(String id, String blockcheck) {
         int result2 = userMapper.blockchange(id, blockcheck);
         System.out.println(result2);
@@ -58,7 +58,6 @@ public class UserService {
        int result3 = userMapper.blockcheck(blockcheck);
        return result3;
     }
-=======
->>>>>>> dev
+
 }
 
