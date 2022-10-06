@@ -45,6 +45,7 @@ public class SignupController {
         } else {
             mav.setViewName("/login");
             mav.addObject("msg", "failure");
+
             return "redirect:/login";
         }
     }

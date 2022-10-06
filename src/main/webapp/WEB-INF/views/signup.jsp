@@ -41,6 +41,10 @@
             background: #fff;
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
             padding: 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         .signup-form h2  {
             color: #333;
@@ -92,6 +96,7 @@
             text-align: center;
         }
     </style>
+    <script src="static/js/join_check.js"></script>
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -102,7 +107,7 @@
         <hr>
         <div class="form-group">
             <input type="text" class="form-control" id="user_id" name="user_id" placeholder="4-15자리 입력하시오" minlength="4" maxlength="15" required autofocus>
-            <button id="overlappedID" type="submit">중복확인</button>
+            <button id="overlappedID" type="button">중복확인</button>
             <span id="olmessage"></span><br>
         </div>
         <div class="form-group">
@@ -113,13 +118,35 @@
             <input type="radio" name="gender" value="m" >남성
         </div>
         <div class="form-group">
-            <input type="text" id="mbti" name="mbti" placeholder="MBTI" required><br>
+            <td>
+                <label>MBTI</label>
+                <select name="mbti">
+                    <option value="ESTP">ESTP</option>
+                    <option value="ESTJ">ESTJ</option>
+                    <option value="ENTP">ENTP</option>
+                    <option value="ENTJ">ENTJ</option>
+                    <option value="ENFP">ENFP</option>
+                    <option value="ENFJ">ENFJ</option>
+                    <option value="ESFJ">ESFJ</option>
+                    <option value="ESFP">ESFP</option>
+                    <option value="ISTP">ISTP</option>
+                    <option value="ISTJ">ISTJ</option>
+                    <option value="INTP">INTP</option>
+                    <option value="INTJ">INTJ</option>
+                    <option value="INFP">INFP</option>
+                    <option value="INFJ">INFJ</option>
+                    <option value="ISFJ">ISFJ</option>
+                    <option value="ISFP">ISFP</option>
+                </select>
+            </td>
+<%--            <input type="text" id="mbti" name="mbti" placeholder="MBTI" required><br>--%>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary btn-lg">회원가입</button>
         </div>
+        <div class="hint-text">Already have an account? <a href="/login">Login here</a></div>
     </form>
-    <div class="hint-text">Already have an account? <a href="/login">Login here</a></div>
+<%--    <div class="hint-text">Already have an account? <a href="/login">Login here</a></div>--%>
 <%--    <p><a href="/login">로그인</a> </p>--%>
 </div>
 
